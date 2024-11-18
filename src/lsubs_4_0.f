@@ -1573,16 +1573,6 @@ C                                                                        LAKDON.
       COMMON /FUNITS/ K00,K0,K1,K2,K3,K4,K5,K6,K7,K8,K9,                 LAKDON........1300
      1   K10,K11,K12,K13,K14,K15,K16,K17,K18,K19,K20,K21,K22,K23         LAKDON........1400
 C                                                                        LAKDON........1500
-C.....CLOSE LAKE-RELATED FILES.                                          LAKDON........1600
-      CLOSE(K16)                                                         LAKDON........1700
-      CLOSE(K17)                                                         LAKDON........1800
-      CLOSE(K18)                                                         LAKDON........1900
-      CLOSE(K19)                                                         LAKDON........2000
-      CLOSE(K20)                                                         LAKDON........2100
-      CLOSE(K21)                                                         LAKDON........2200
-      CLOSE(K22)                                                         LAKDON........2300
-      CLOSE(K23)                                                         LAKDON........2400
-C                                                                        LAKDON........2500
 C.....DEALLOCATE ARRAYS.                                                 LAKDON........2600
       DEALLOCATE (PLK, ULK)                                              LAKDON........2700
       DEALLOCATE (ULKITR)                                                LAKDON........2800

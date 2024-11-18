@@ -2179,7 +2179,8 @@ C........DIRECT SOLVER                                                   BC.....
                         UVAL = UBC(JPU)                                  BC...........14500
                      END IF                                              BC...........14600
                      UVEC(IB) = UVEC(IB) - UMAT(IB,JB)*UVAL              BC...........14700
-                     UMAT(IB,JB) = 0D0                                   BC...........14800
+C....................ESSENTIALLY ZERO OUT DIAGONAL IN A RECOVERABLE WAY  ! fix bk 231103
+                     UMAT(IB,JB) = UMAT(IB,JB)/GNUU                      ! fix bk 231103
                   END IF                                                 BC...........14900
                END IF                                                    BC...........15000
  1120       CONTINUE                                                     BC...........15100
@@ -2211,7 +2212,8 @@ C                 MATRIX VALUES ARE NOT                                  BC.....
                         UVAL = UBC(JPU)                                  BC...........17700
                      END IF                                              BC...........17800
                      UVEC(I) = UVEC(I) - UMAT(M,1)*UVAL                  BC...........17900
-                     UMAT(M,1) = 0D0                                     BC...........18000
+C....................ESSENTIALLY ZERO OUT DIAGONAL IN A RECOVERABLE WAY  ! fix bk 231103
+                     UMAT(M,1) = UMAT(M,1)/GNUU                          ! fix bk 231103
                   END IF                                                 BC...........18100
                END IF                                                    BC...........18200
  1170       CONTINUE                                                     BC...........18300
@@ -2363,7 +2365,7 @@ C.....MODIFY EQUATION FOR P BY ADDING FLUID SOURCE AT                    BCG....
 C        GENERALIZED-FLOW NODE                                           BCG..........12000
   100 IF (.NOT.LPBGSP(IPG)) THEN                                         BCG..........12100
 C........NOT ACTING AS A SPECIFIED-P NODE                                BCG..........12200
-         IF (ISPBG(IPG).NE.0) THEN                                       BCG..........12300
+         IF (ISPBG(I).NE.0) THEN                                         ! fix wt220107
 C...........ACTING AS A NORMAL PBG NODE                                  BCG..........12400
             IF ((CPQL1(IPG).EQ."Q").AND.(PITER(I).LT.PBG1EFF)) THEN      BCG..........12500
                GPINL = 0D0                                               BCG..........12600
@@ -19554,6 +19556,8 @@ C           GUESS FOR U(0) SOLUTION INTO B BEFORE CALLING SOLVER.        SUTRA..
      1            IWK,FWK,IA,JA,IERRU,ITRSU,ERRU)                        SUTRA........65400
 C.....IF DIRECT SOLVER, SAVE U(0) AND FINALIZE UVEC AT SPEC-U NODES      SUTRA........65500
       CALL FINALU()                                                      SUTRA........65600
+C.....RESTORE SPEC-U MATRIX OFF-DIAGONALS                               ! fix bk 231103
+      CALL UBCMAT(ML,UMAT,IA,JA,IBCUBC,ISUBC)                           ! fix bk 231103
       ONCEU = .TRUE.                                                     SUTRA........65700
  6000 CONTINUE                                                           SUTRA........65800
 C.....U SOLUTION NOW IN UVEC                                             SUTRA........65900
@@ -20003,34 +20007,34 @@ C.....TERMINATION SEQUENCE: DEALLOCATE ARRAYS, CLOSE FILES, AND STOP     TERSEQ.
       DEALLOCATE(SWPNM,SLPNM,RKPNM)                                      TERSEQ........8500
 C.....ARRAY IUNIO WILL BE DEALLOCATED AFTER THE OBSERVATION OUTPUT       TERSEQ........8600
 C        FILES ARE CLOSED                                                TERSEQ........8700
-      CLOSE(K00)                                                         TERSEQ........8800
-      CLOSE(K0)                                                          TERSEQ........8900
-      CLOSE(K1)                                                          TERSEQ........9000
-      CLOSE(K2)                                                          TERSEQ........9100
-      CLOSE(K3)                                                          TERSEQ........9200
-      CLOSE(K4)                                                          TERSEQ........9300
-      CLOSE(K5)                                                          TERSEQ........9400
-      CLOSE(K6)                                                          TERSEQ........9500
-      CLOSE(K7)                                                          TERSEQ........9600
-      CLOSE(K8)                                                          TERSEQ........9700
-      CLOSE(K9)                                                          TERSEQ........9800
-      CLOSE(K10)                                                         TERSEQ........9900
-      CLOSE(K11)                                                         TERSEQ.......10000
-      CLOSE(K12)                                                         TERSEQ.......10100
-      CLOSE(K13)                                                         TERSEQ.......10200
-      CLOSE(K14)                                                         TERSEQ.......10300
-      CLOSE(K15)                                                         TERSEQ.......10400
-      CLOSE(K16)                                                         TERSEQ.......10500
-      CLOSE(K17)                                                         TERSEQ.......10600
-      CLOSE(K18)                                                         TERSEQ.......10700
-      CLOSE(K19)                                                         TERSEQ.......10800
-      CLOSE(K20)                                                         TERSEQ.......10900
-      CLOSE(K21)                                                         TERSEQ.......11000
-      CLOSE(K22)                                                         TERSEQ.......11100
-      CLOSE(K23)                                                         TERSEQ.......11200
-      DO 8000 NFO=1,NFLOMX                                               TERSEQ.......11300
-         CLOSE(IUNIO(NFO))                                               TERSEQ.......11400
- 8000 CONTINUE                                                           TERSEQ.......11500
+      IF (K00.NE.-1) CLOSE(K00)                                          ! fix ph 240409  TERSEQ........8000
+      IF (K0.NE.-1) CLOSE(K0)                                            ! fix ph 240409  TERSEQ........8100
+      IF (K1.NE.-1) CLOSE(K1)                                            ! fix ph 240409  TERSEQ........8200
+      IF (K2.NE.-1) CLOSE(K2)                                            ! fix ph 240409  TERSEQ........8300
+      IF (K3.NE.-1) CLOSE(K3)                                            ! fix ph 240409  TERSEQ........8400
+      IF (K4.NE.-1) CLOSE(K4)                                            ! fix ph 240409  TERSEQ........8500
+      IF (K5.NE.-1) CLOSE(K5)                                            ! fix ph 240409  TERSEQ........8600
+      IF (K6.NE.-1) CLOSE(K6)                                            ! fix ph 240409  TERSEQ........8700
+      IF (K7.NE.-1) CLOSE(K7)                                            ! fix ph 240409  TERSEQ........8800
+      IF (K8.NE.-1) CLOSE(K8)                                            ! fix ph 240409  TERSEQ........8900
+      IF (K9.NE.-1) CLOSE(K9)                                            ! fix ph 240409  TERSEQ........9000
+      IF (K10.NE.-1) CLOSE(K10)                                          ! fix ph 240409  TERSEQ........9100
+      IF (K11.NE.-1) CLOSE(K11)                                          ! fix ph 240409  TERSEQ........9200
+      IF (K12.NE.-1) CLOSE(K12)                                          ! fix ph 240409  TERSEQ........9300
+      IF (K13.NE.-1) CLOSE(K13)                                          ! fix ph 240409  TERSEQ........9400
+      IF (K14.NE.-1) CLOSE(K14)                                          ! fix ph 240409  TERSEQ........9500
+      IF (K15.NE.-1) CLOSE(K15)                                          ! fix ph 240409  TERSEQ........9600
+      IF (K16.NE.-1) CLOSE(K16)                                          ! fix ph 240409  TERSEQ........9700
+      IF (K17.NE.-1) CLOSE(K17)                                          ! fix ph 240409  TERSEQ........9800
+      IF (K18.NE.-1) CLOSE(K18)                                          ! fix ph 240409  TERSEQ........9900
+      IF (K19.NE.-1) CLOSE(K19)                                          ! fix ph 240409  TERSEQ.......10000
+      IF (K20.NE.-1) CLOSE(K20)                                          ! fix ph 240409  TERSEQ.......10100
+      IF (K21.NE.-1) CLOSE(K21)                                          ! fix ph 240409  TERSEQ.......10200
+      IF (K22.NE.-1) CLOSE(K22)                                          ! fix ph 240409  TERSEQ.......10300
+      IF (K23.NE.-1) CLOSE(K23)                                          ! fix ph 240409  TERSEQ.......10400
+      DO 8000 NFO=1,NFLOMX                                               ! fix ph 240409  TERSEQ.......10500
+         IF (IUNIO(NFO).NE.-1) CLOSE(IUNIO(NFO))                         ! fix ph 240409  TERSEQ.......10600
+ 8000 CONTINUE                                                           ! fix ph 240409  TERSEQ.......10700
       IF (ALCOBS) DEALLOCATE(IUNIO)                                      TERSEQ.......11600
       IF ((KSCRN.EQ.1).AND.(KPAUSE.EQ.1)) THEN                           TERSEQ.......11700
          WRITE(*,9990)                                                   TERSEQ.......11800
@@ -20113,6 +20117,89 @@ C                                                                        TIMETS.
       RETURN                                                             TIMETS........3200
       END                                                                TIMETS........3300
 C                                                                        TIMETS........3400
+C     SUBROUTINE        U  B  C  M  A  T           SUTRA VERSION 3.0     ! fix bk 231103 ...
+C                                                                       
+C *** PURPOSE :                                                         
+C ***  TO RESTORE SPEC-U MATRIX OFF-DIAGONALS.                          
+C                                                                       
+      SUBROUTINE UBCMAT(ML,UMAT,IA,JA,IBCUBC,ISUBC)                     
+      USE LARR, ONLY : LKBCUBC                                          
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)                               
+      DIMENSION UMAT(NELT,NCBI)                                         
+      INTEGER(1) IBCUBC(NBCN)                                           
+      DIMENSION IA(NDIMIA),JA(NDIMJA),ISUBC(NN)  
+      DIMENSION KTYPE(2)                                                 ! fix ph 240409               
+      COMMON /CONTRL/ GNUP,GNUU,UP,DTMULT,DTMAX,ME,ISSFLO,ISSTRA,ITCYC, 
+     1   NPCYC,NUCYC,NPRINT,NBCFPR,NBCSPR,NBCPPR,NBCUPR,NLAKPR,IREAD,   
+     1   NBGPPR,NBGUPR,ISTORE,NOUMAT,IUNSAT,IALSAT,KTYPE                
+      COMMON /DIMS/ NN,NE,NIN,NBI,NCBI,NB,NBHALF,NPBC,NUBC,             
+     1   NSOP,NSOU,NBCN,NPBG,NUBG,NCIDB                                 
+      COMMON /DIMX/ NWI,NWF,NWL,NELT,NNNX,NEX,N48                       
+      COMMON /DIMX2/ NELTA,NNVEC,NDIMIA,NDIMJA                          
+      COMMON /SOLVI/ KSOLVP,KSOLVU,NN1,NN2,NN3                          
+C                                                                       
+C                                                                       
+C.....SET UP MATRIX STRUCTURE INFORMATION                               
+      IF (KSOLVP.EQ.0) THEN                                             
+         JMID = NBHALF                                                  
+      ELSE                                                              
+         JMID = 1                                                       
+      END IF                                                            
+C                                                                       
+ 1050 IF (ML.NE.1) THEN                                                 
+ 1100 IF(NUBC.EQ.0) GOTO 3000                                           
+C                                                                       
+C.....FOR ALL SOLVERS, RESTORE SPEC-U MATRIX OFF-DIAGONALS              
+      IF (KSOLVU.EQ.0) THEN                                             
+C........DIRECT SOLVER                                                  
+         DO 1140 I=1,NN                                                 
+            IB = I                                                      
+            DO 1120 JB=1,NB                                             
+               J=JB+IB-NBHALF                                           
+               IF ((J.EQ.I).OR.(J.LT.1).OR.(J.GT.NN)) CYCLE             
+               JPU = ISUBC(J)                                           
+               IF (JPU.NE.0) THEN                                       
+                  IF ((IBCUBC(JPU).NE.2).AND.(LKBCUBC(JPU))) THEN       
+                     UMAT(IB,JB) = UMAT(IB,JB)*GNUU                     
+                  END IF                                                
+               END IF                                                   
+ 1120       CONTINUE                                                    
+ 1140    CONTINUE                                                       
+      ELSE                                                              
+C........ITERATIVE SOLVER (SLAP COLUMN)                                 
+         DO 1180 I=1,NN                                                 
+            MDBEG = JA(I)                                               
+            MDEND = JA(I + 1) - 1                                       
+            DO 1170 MJ=MDBEG+1,MDEND                                    
+               J = IA(MJ)                                               
+C..............ASSUME MATRIX STRUCTURE IS SYMMETRIC, EVEN IF            
+C                 MATRIX VALUES ARE NOT                                 
+               MBEG = JA(J)                                             
+               MEND = JA(J + 1) - 1                                     
+               DO 1150 MM=MBEG,MEND                                     
+                  IF (I.EQ.IA(MM)) THEN                                 
+                     M = MM                                             
+                     GOTO 1152                                          
+                  END IF                                                
+ 1150          CONTINUE                                                 
+ 1152          JPU = ISUBC(J)                                           
+               IF (JPU.NE.0) THEN                                       
+                  IF ((IBCUBC(JPU).NE.2).AND.(LKBCUBC(JPU))) THEN       
+                     UMAT(M,1) = UMAT(M,1)*GNUU
+                  END IF                                                
+               END IF                                                   
+ 1170       CONTINUE                                                    
+ 1180    CONTINUE                                                       
+      END IF                                                            
+C                                                                       
+      END IF                                                            
+C
+ 3000 CONTINUE                                                          
+C                                                                       
+C                                                                       
+      RETURN                                                            
+      END                                                               
+C                                                                        ! ... fix bk 231103
 C     SUBROUTINE        U  P  S  A  T  S           SUTRA VERSION 4.0     UPSATS.........100
 C                                                                        UPSATS.........200
 C *** PURPOSE :                                                          UPSATS.........300
