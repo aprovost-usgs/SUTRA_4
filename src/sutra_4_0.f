@@ -2179,70 +2179,70 @@ C........DIRECT SOLVER                                                   BC.....
                         UVAL = UBC(JPU)                                  BC...........14500
                      END IF                                              BC...........14600
                      UVEC(IB) = UVEC(IB) - UMAT(IB,JB)*UVAL              BC...........14700
-C....................ESSENTIALLY ZERO OUT DIAGONAL IN A RECOVERABLE WAY  ! fix bk 231103
-                     UMAT(IB,JB) = UMAT(IB,JB)/GNUU                      ! fix bk 231103
-                  END IF                                                 BC...........14900
-               END IF                                                    BC...........15000
- 1120       CONTINUE                                                     BC...........15100
- 1140    CONTINUE                                                        BC...........15200
-      ELSE                                                               BC...........15300
-C........ITERATIVE SOLVER (SLAP COLUMN)                                  BC...........15400
-         DO 1180 I=1,NN                                                  BC...........15500
-            MDBEG = JA(I)                                                BC...........15600
-            MDEND = JA(I + 1) - 1                                        BC...........15700
-            DO 1170 MJ=MDBEG+1,MDEND                                     BC...........15800
-               J = IA(MJ)                                                BC...........15900
-C..............ASSUME MATRIX STRUCTURE IS SYMMETRIC, EVEN IF             BC...........16000
-C                 MATRIX VALUES ARE NOT                                  BC...........16100
-               MBEG = JA(J)                                              BC...........16200
-               MEND = JA(J + 1) - 1                                      BC...........16300
-               DO 1150 MM=MBEG,MEND                                      BC...........16400
-                  IF (I.EQ.IA(MM)) THEN                                  BC...........16500
-                     M = MM                                              BC...........16600
-                     GOTO 1152                                           BC...........16700
-                  END IF                                                 BC...........16800
- 1150          CONTINUE                                                  BC...........16900
- 1152          JPU = ISUBC(J)                                            BC...........17000
-               IF (JPU.NE.0) THEN                                        BC...........17100
-                  IF ((IBCUBC(JPU).NE.2).AND.(LKBCUBC(JPU))) THEN        BC...........17200
-                     IF (ISLAKE(J)) THEN                                 BC...........17300
-                        ISURF = ISURFACE(J)                              BC...........17400
-                        UVAL = ULK(ISURF)                                BC...........17500
-                     ELSE                                                BC...........17600
-                        UVAL = UBC(JPU)                                  BC...........17700
-                     END IF                                              BC...........17800
-                     UVEC(I) = UVEC(I) - UMAT(M,1)*UVAL                  BC...........17900
-C....................ESSENTIALLY ZERO OUT DIAGONAL IN A RECOVERABLE WAY  ! fix bk 231103
-                     UMAT(M,1) = UMAT(M,1)/GNUU                          ! fix bk 231103
-                  END IF                                                 BC...........18100
-               END IF                                                    BC...........18200
- 1170       CONTINUE                                                     BC...........18300
- 1180    CONTINUE                                                        BC...........18400
-      END IF                                                             BC...........18500
-C                                                                        BC...........18600
-C.....SAVE MATRIX DIAGONAL ENTRIES AT SPEC-U NODES, BUT DO NOT MODIFY    BC...........18700
-C        THE MATRIX OR RHS FOR U                                         BC...........18800
-      DO 2500 IU=1,NUBC                                                  BC...........18900
-      IUP=IU+NPBC                                                        BC...........19000
-      IF ((IBCUBC(IUP).EQ.2).OR.(.NOT.LKBCUBC(IUP))) CYCLE               BC...........19100
-      I=IABS(IUBC(IUP))                                                  BC...........19200
-C                                                                        BC...........19300
-      IF (KSOLVP.EQ.0) THEN                                              BC...........19400
-         IMID = I                                                        BC...........19500
-      ELSE                                                               BC...........19600
-         IMID = JA(I)                                                    BC...........19700
-      END IF                                                             BC...........19800
-      IF(NOUMAT) 1200,1200,2500                                          BC...........19900
- 1200 BUBC(IU) = UMAT(IMID,JMID)                                         BC...........20000
- 2500 CONTINUE                                                           BC...........20100
-      END IF                                                             BC...........20200
-C                                                                        BC...........20300
- 3000 CONTINUE                                                           BC...........20400
+C....................ESSENTIALLY ZERO OUT DIAGONAL IN A RECOVERABLE WAY  BC...........14800
+                     UMAT(IB,JB) = UMAT(IB,JB)/GNUU                      BC...........14900
+                  END IF                                                 BC...........15000
+               END IF                                                    BC...........15100
+ 1120       CONTINUE                                                     BC...........15200
+ 1140    CONTINUE                                                        BC...........15300
+      ELSE                                                               BC...........15400
+C........ITERATIVE SOLVER (SLAP COLUMN)                                  BC...........15500
+         DO 1180 I=1,NN                                                  BC...........15600
+            MDBEG = JA(I)                                                BC...........15700
+            MDEND = JA(I + 1) - 1                                        BC...........15800
+            DO 1170 MJ=MDBEG+1,MDEND                                     BC...........15900
+               J = IA(MJ)                                                BC...........16000
+C..............ASSUME MATRIX STRUCTURE IS SYMMETRIC, EVEN IF             BC...........16100
+C                 MATRIX VALUES ARE NOT                                  BC...........16200
+               MBEG = JA(J)                                              BC...........16300
+               MEND = JA(J + 1) - 1                                      BC...........16400
+               DO 1150 MM=MBEG,MEND                                      BC...........16500
+                  IF (I.EQ.IA(MM)) THEN                                  BC...........16600
+                     M = MM                                              BC...........16700
+                     GOTO 1152                                           BC...........16800
+                  END IF                                                 BC...........16900
+ 1150          CONTINUE                                                  BC...........17000
+ 1152          JPU = ISUBC(J)                                            BC...........17100
+               IF (JPU.NE.0) THEN                                        BC...........17200
+                  IF ((IBCUBC(JPU).NE.2).AND.(LKBCUBC(JPU))) THEN        BC...........17300
+                     IF (ISLAKE(J)) THEN                                 BC...........17400
+                        ISURF = ISURFACE(J)                              BC...........17500
+                        UVAL = ULK(ISURF)                                BC...........17600
+                     ELSE                                                BC...........17700
+                        UVAL = UBC(JPU)                                  BC...........17800
+                     END IF                                              BC...........17900
+                     UVEC(I) = UVEC(I) - UMAT(M,1)*UVAL                  BC...........18000
+C....................ESSENTIALLY ZERO OUT DIAGONAL IN A RECOVERABLE WAY  BC...........18100
+                     UMAT(M,1) = UMAT(M,1)/GNUU                          BC...........18200
+                  END IF                                                 BC...........18300
+               END IF                                                    BC...........18400
+ 1170       CONTINUE                                                     BC...........18500
+ 1180    CONTINUE                                                        BC...........18600
+      END IF                                                             BC...........18700
+C                                                                        BC...........18800
+C.....SAVE MATRIX DIAGONAL ENTRIES AT SPEC-U NODES, BUT DO NOT MODIFY    BC...........18900
+C        THE MATRIX OR RHS FOR U                                         BC...........19000
+      DO 2500 IU=1,NUBC                                                  BC...........19100
+      IUP=IU+NPBC                                                        BC...........19200
+      IF ((IBCUBC(IUP).EQ.2).OR.(.NOT.LKBCUBC(IUP))) CYCLE               BC...........19300
+      I=IABS(IUBC(IUP))                                                  BC...........19400
+C                                                                        BC...........19500
+      IF (KSOLVP.EQ.0) THEN                                              BC...........19600
+         IMID = I                                                        BC...........19700
+      ELSE                                                               BC...........19800
+         IMID = JA(I)                                                    BC...........19900
+      END IF                                                             BC...........20000
+      IF(NOUMAT) 1200,1200,2500                                          BC...........20100
+ 1200 BUBC(IU) = UMAT(IMID,JMID)                                         BC...........20200
+ 2500 CONTINUE                                                           BC...........20300
+      END IF                                                             BC...........20400
 C                                                                        BC...........20500
-C                                                                        BC...........20600
-      RETURN                                                             BC...........20700
-      END                                                                BC...........20800
-C                                                                        BC...........20900
+ 3000 CONTINUE                                                           BC...........20600
+C                                                                        BC...........20700
+C                                                                        BC...........20800
+      RETURN                                                             BC...........20900
+      END                                                                BC...........21000
+C                                                                        BC...........21100
 C     SUBROUTINE        B  C  G                    SUTRA VERSION 4.0     BCG............100
 C                                                                        BCG............200
 C *** PURPOSE :                                                          BCG............300
@@ -2365,7 +2365,7 @@ C.....MODIFY EQUATION FOR P BY ADDING FLUID SOURCE AT                    BCG....
 C        GENERALIZED-FLOW NODE                                           BCG..........12000
   100 IF (.NOT.LPBGSP(IPG)) THEN                                         BCG..........12100
 C........NOT ACTING AS A SPECIFIED-P NODE                                BCG..........12200
-         IF (ISPBG(I).NE.0) THEN                                         ! fix wt220107
+         IF (ISPBG(I).NE.0) THEN                                         BCG..........12300
 C...........ACTING AS A NORMAL PBG NODE                                  BCG..........12400
             IF ((CPQL1(IPG).EQ."Q").AND.(PITER(I).LT.PBG1EFF)) THEN      BCG..........12500
                GPINL = 0D0                                               BCG..........12600
@@ -19556,343 +19556,343 @@ C           GUESS FOR U(0) SOLUTION INTO B BEFORE CALLING SOLVER.        SUTRA..
      1            IWK,FWK,IA,JA,IERRU,ITRSU,ERRU)                        SUTRA........65400
 C.....IF DIRECT SOLVER, SAVE U(0) AND FINALIZE UVEC AT SPEC-U NODES      SUTRA........65500
       CALL FINALU()                                                      SUTRA........65600
-C.....RESTORE SPEC-U MATRIX OFF-DIAGONALS                               ! fix bk 231103
-      CALL UBCMAT(ML,UMAT,IA,JA,IBCUBC,ISUBC)                           ! fix bk 231103
-      ONCEU = .TRUE.                                                     SUTRA........65700
- 6000 CONTINUE                                                           SUTRA........65800
-C.....U SOLUTION NOW IN UVEC                                             SUTRA........65900
-C                                                                        SUTRA........66000
-C.....SOLVE FOR LAKE FLOW AND TRANSPORT                                  SUTRA........66100
-      IF (LAKUSD) THEN                                                   SUTRA........66200
-      IF ((ISSTRA.EQ.0).OR.((ISSTRA.EQ.1).AND.(IT.EQ.1))) THEN           SUTRA........66300
-         ISTAT = ISTATM1                                                 SUTRA........66400
-         VOLW = VOLWM1                                                   SUTRA........66500
-         UW = UWM1                                                       SUTRA........66600
-         UWMS = UWMSM1                                                   SUTRA........66700
-         ULKITR = ULK                                                    SUTRA........66800
-         CALL SLAKE()                                                    SUTRA........66900
-      END IF                                                             SUTRA........67000
-      END IF                                                             SUTRA........67100
-C                                                                        SUTRA........67200
-      IERR = IABS(IERRP) + IABS(IERRU)                                   SUTRA........67300
+C.....RESTORE SPEC-U MATRIX OFF-DIAGONALS                                SUTRA........65700
+      CALL UBCMAT(ML,UMAT,IA,JA,IBCUBC,ISUBC)                            SUTRA........65800
+      ONCEU = .TRUE.                                                     SUTRA........65900
+ 6000 CONTINUE                                                           SUTRA........66000
+C.....U SOLUTION NOW IN UVEC                                             SUTRA........66100
+C                                                                        SUTRA........66200
+C.....SOLVE FOR LAKE FLOW AND TRANSPORT                                  SUTRA........66300
+      IF (LAKUSD) THEN                                                   SUTRA........66400
+      IF ((ISSTRA.EQ.0).OR.((ISSTRA.EQ.1).AND.(IT.EQ.1))) THEN           SUTRA........66500
+         ISTAT = ISTATM1                                                 SUTRA........66600
+         VOLW = VOLWM1                                                   SUTRA........66700
+         UW = UWM1                                                       SUTRA........66800
+         UWMS = UWMSM1                                                   SUTRA........66900
+         ULKITR = ULK                                                    SUTRA........67000
+         CALL SLAKE()                                                    SUTRA........67100
+      END IF                                                             SUTRA........67200
+      END IF                                                             SUTRA........67300
 C                                                                        SUTRA........67400
-C.....CHECK PROGRESS AND CONVERGENCE OF NON-LINEARITY ITERATIONS         SUTRA........67500
-C        AND SET STOP AND GO FLAGS:                                      SUTRA........67600
-C           ISTOP = -1   NOT CONVERGED - STOP SIMULATION                 SUTRA........67700
-C           ISTOP =  0   ITERATIONS LEFT OR CONVERGED - KEEP SIMULATING  SUTRA........67800
-C           ISTOP =  1   LAST TIME STEP REACHED - STOP SIMULATION        SUTRA........67900
-C           IGOI = 0   P AND U CONVERGED, OR NO ITERATIONS DONE          SUTRA........68000
-C           IGOI = 1   ONLY P HAS NOT YET CONVERGED TO CRITERION         SUTRA........68100
-C           IGOI = 2   ONLY U HAS NOT YET CONVERGED TO CRITERION         SUTRA........68200
-C           IGOI = 3   BOTH P AND U HAVE NOT YET CONVERGED TO CRITERIA   SUTRA........68300
-      ISTOP=0                                                            SUTRA........68400
-      IGOI=0                                                             SUTRA........68500
-      IF(ITRMAX-1) 7500,7500,7000                                        SUTRA........68600
- 7000 RPM=0.D0                                                           SUTRA........68700
-      RUM=0.D0                                                           SUTRA........68800
-      IPWORS=0                                                           SUTRA........68900
-      IUWORS=0                                                           SUTRA........69000
-      IF(ML-1) 7050,7050,7150                                            SUTRA........69100
- 7050 DO 7100 I=1,NN                                                     SUTRA........69200
-      RP=DABS(PVEC(I)-PITER(I))                                          SUTRA........69300
-      IF(RP-RPM) 7100,7060,7060                                          SUTRA........69400
- 7060 RPM=RP                                                             SUTRA........69500
-      IPWORS=I                                                           SUTRA........69600
- 7100 CONTINUE                                                           SUTRA........69700
-      IF(RPM.GT.RPMAX) IGOI=IGOI+1                                       SUTRA........69800
- 7150 IF(ML-1) 7200,7350,7200                                            SUTRA........69900
- 7200 DO 7300 I=1,NN                                                     SUTRA........70000
-      RU=DABS(UVEC(I)-UITER(I))                                          SUTRA........70100
-      IF(RU-RUM) 7300,7260,7260                                          SUTRA........70200
- 7260 RUM=RU                                                             SUTRA........70300
-      IUWORS=I                                                           SUTRA........70400
- 7300 CONTINUE                                                           SUTRA........70500
-      IF(RUM.GT.RUMAX) IGOI=IGOI+2                                       SUTRA........70600
- 7350 CONTINUE                                                           SUTRA........70700
-      IF (KSCRN.EQ.1) WRITE (*,7377) RPM, RUM                            SUTRA........70800
-      WRITE (K00,7377) RPM, RUM                                          SUTRA........70900
- 7377 FORMAT (1X, 6X, 'Maximum changes in P, U: ',1PE8.1,", ",1PE8.1)    SUTRA........71000
-      IF(IGOI.GT.0.AND.ITER.EQ.ITRMAX) ISTOP=-1                          SUTRA........71100
-      IF(IGOI.GT.0.AND.ISTOP.EQ.0.AND.IERR.EQ.0) GOTO 1100               SUTRA........71200
-C - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  SUTRA........71300
-C.....END ITERATION - - - - - - - - - - - - - - - - - - - - - - - - - -  SUTRA........71400
+      IERR = IABS(IERRP) + IABS(IERRU)                                   SUTRA........67500
+C                                                                        SUTRA........67600
+C.....CHECK PROGRESS AND CONVERGENCE OF NON-LINEARITY ITERATIONS         SUTRA........67700
+C        AND SET STOP AND GO FLAGS:                                      SUTRA........67800
+C           ISTOP = -1   NOT CONVERGED - STOP SIMULATION                 SUTRA........67900
+C           ISTOP =  0   ITERATIONS LEFT OR CONVERGED - KEEP SIMULATING  SUTRA........68000
+C           ISTOP =  1   LAST TIME STEP REACHED - STOP SIMULATION        SUTRA........68100
+C           IGOI = 0   P AND U CONVERGED, OR NO ITERATIONS DONE          SUTRA........68200
+C           IGOI = 1   ONLY P HAS NOT YET CONVERGED TO CRITERION         SUTRA........68300
+C           IGOI = 2   ONLY U HAS NOT YET CONVERGED TO CRITERION         SUTRA........68400
+C           IGOI = 3   BOTH P AND U HAVE NOT YET CONVERGED TO CRITERIA   SUTRA........68500
+      ISTOP=0                                                            SUTRA........68600
+      IGOI=0                                                             SUTRA........68700
+      IF(ITRMAX-1) 7500,7500,7000                                        SUTRA........68800
+ 7000 RPM=0.D0                                                           SUTRA........68900
+      RUM=0.D0                                                           SUTRA........69000
+      IPWORS=0                                                           SUTRA........69100
+      IUWORS=0                                                           SUTRA........69200
+      IF(ML-1) 7050,7050,7150                                            SUTRA........69300
+ 7050 DO 7100 I=1,NN                                                     SUTRA........69400
+      RP=DABS(PVEC(I)-PITER(I))                                          SUTRA........69500
+      IF(RP-RPM) 7100,7060,7060                                          SUTRA........69600
+ 7060 RPM=RP                                                             SUTRA........69700
+      IPWORS=I                                                           SUTRA........69800
+ 7100 CONTINUE                                                           SUTRA........69900
+      IF(RPM.GT.RPMAX) IGOI=IGOI+1                                       SUTRA........70000
+ 7150 IF(ML-1) 7200,7350,7200                                            SUTRA........70100
+ 7200 DO 7300 I=1,NN                                                     SUTRA........70200
+      RU=DABS(UVEC(I)-UITER(I))                                          SUTRA........70300
+      IF(RU-RUM) 7300,7260,7260                                          SUTRA........70400
+ 7260 RUM=RU                                                             SUTRA........70500
+      IUWORS=I                                                           SUTRA........70600
+ 7300 CONTINUE                                                           SUTRA........70700
+      IF(RUM.GT.RUMAX) IGOI=IGOI+2                                       SUTRA........70800
+ 7350 CONTINUE                                                           SUTRA........70900
+      IF (KSCRN.EQ.1) WRITE (*,7377) RPM, RUM                            SUTRA........71000
+      WRITE (K00,7377) RPM, RUM                                          SUTRA........71100
+ 7377 FORMAT (1X, 6X, 'Maximum changes in P, U: ',1PE8.1,", ",1PE8.1)    SUTRA........71200
+      IF(IGOI.GT.0.AND.ITER.EQ.ITRMAX) ISTOP=-1                          SUTRA........71300
+      IF(IGOI.GT.0.AND.ISTOP.EQ.0.AND.IERR.EQ.0) GOTO 1100               SUTRA........71400
 C - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  SUTRA........71500
-C                                                                        SUTRA........71600
- 7500 CONTINUE                                                           SUTRA........71700
-      IF(ISTOP.NE.-1.AND.IT.EQ.ITMAX) ISTOP=1                            SUTRA........71800
-C                                                                        SUTRA........71900
-C.....OUTPUT RESULTS FOR TIME STEP IN ACCORDANCE WITH PRINT CYCLES       SUTRA........72000
+C.....END ITERATION - - - - - - - - - - - - - - - - - - - - - - - - - -  SUTRA........71600
+C - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  SUTRA........71700
+C                                                                        SUTRA........71800
+ 7500 CONTINUE                                                           SUTRA........71900
+      IF(ISTOP.NE.-1.AND.IT.EQ.ITMAX) ISTOP=1                            SUTRA........72000
 C                                                                        SUTRA........72100
-C.....COMPUTE SOME LOGICAL CONDITIONS.  PRNALL=.TRUE. INDICATES THAT     SUTRA........72200
-C        ALL RESULTS SHOULD BE PRINTED BECAUSE THIS IS THE LAST TIME     SUTRA........72300
-C        STEP (EITHER BY DESIGN OR BECAUSE OF AN ERROR).  PRN0=.TRUE.    SUTRA........72400
-C        INDICATES THAT INITIAL CONDITIONS ARE TO BE PRINTED FOR A       SUTRA........72500
-C        STEADY-FLOW, TRANSIENT-TRANSPORT RUN.  PRNDEF=.TRUE. IF         SUTRA........72600
-C        EITHER OF THE TWO PRECEDING CONDITIONS IS TRUE.                 SUTRA........72700
-      PRNALL = ((ISTOP.NE.0).OR.(IERR.NE.0))                             SUTRA........72800
-      PRN0 = ((ITREL.EQ.0).AND.(ISSFLO.NE.0).AND.(ISSTRA.NE.1))          SUTRA........72900
-      PRNDEF = (PRNALL.OR.PRN0)                                          SUTRA........73000
-      ISUPSATS = .FALSE.                                                 SUTRA........73100
-C.....PRINT RESULTS TO THE LST OUTPUT FILE                               SUTRA........73200
-      PRNK3 = (PRNDEF.OR.(MOD(IT,NPRINT).EQ.0)                           SUTRA........73300
-     1         .OR.((ITREL.EQ.1).AND.(NPRINT.GT.0)))                     SUTRA........73400
-      IF (PRNK3) THEN                                                    SUTRA........73500
-      CALL UPSATS(ISUPSATS,SW,DSWDP,SL,DSLDP,DSLDT,SI,                   SUTRA........73600
-     1   DSIDP,DSIDT,RELK,PVEC,UVEC,NREG)                                SUTRA........73700
-      IF (KTYPE(1).EQ.3) THEN                                            SUTRA........73800
-         CALL OUTLST3(ML,ISTOP,IGOI,IERRP,ITRSP,ERRP,IERRU,ITRSU,ERRU,   SUTRA........73900
-     1      PVEC,UVEC,VMAG,VDMAG,VANG1,VANG2,SW,SL,SI)                   SUTRA........74000
-      ELSE                                                               SUTRA........74100
-         CALL OUTLST2(ML,ISTOP,IGOI,IERRP,ITRSP,ERRP,IERRU,ITRSU,ERRU,   SUTRA........74200
-     1      PVEC,UVEC,VMAG,VDMAG,VANG1,SW,SL,SI)                         SUTRA........74300
-      END IF                                                             SUTRA........74400
-C.....CALCULATE AND PRINT FLUID MASS AND/OR ENERGY OR SOLUTE MASS BUDGET SUTRA........74500
-      IF(KBUDG.EQ.1)                                                     SUTRA........74600
-     1   CALL BUDGET(ML,IBCT,IQSOPT,IQSOUT,VOL,SW,SL,SI,                 SUTRA........74700
-     2      DSWDP,DSLDP,DSLDT,DSIDP,DSIDT,RHOL,RHOS,PRODL0,PRODS0,       SUTRA........74800
-     3      PRODL1,PRODS1,PRODI0,SOPL,SOPI,QIN,PVEC,PM1,DPDTITR,         SUTRA........74900
-     4      PBC,QPLITR,IPBC,IQSOP,POR,UVEC,UM1,DUDTITR,UIN,QUIN,QINITR,  SUTRA........75000
-     5      IQSOU,UBC,IUBC,CS1,CS2,CS3,SLA,SRA,NREG,NREGAD,GNUPP,GNUUU,  SUTRA........75100
-     6      PITER,UITER,IBCPBC,IBCUBC,IBCSOP,IBCSOU,IBCPBG,IBCUBG,       SUTRA........75200
-     7      IPBG,PBG1,PBG2,QPBG1,QPBG2,QPBGIC,GNUPG,CPQL1,CPQL2,QPGITR,  SUTRA........75300
-     8      IUBG,UBG1,QUBG1,UPBGI,UPBGO,GNUUG,CUPBGO)                    SUTRA........75400
-         ISUPSATS = .FALSE.                                              SUTRA........75500
-      END IF                                                             SUTRA........75600
-C.....PRINT NODEWISE AND ELEMENTWISE RESULTS TO OUTPUT FILES             SUTRA........75700
-      PRNK5 = ((PRNDEF.OR.((IT.NE.0).AND.(MOD(IT,NCOLPR).EQ.0))          SUTRA........75800
-     1         .OR.((ITREL.EQ.1).AND.(NCOLPR.GT.0))).AND.(K5.NE.-1))     SUTRA........75900
-      IF (PRNK5) THEN                                                    SUTRA........76000
-         CALL UPSATS(ISUPSATS,SW,DSWDP,SL,DSLDP,DSLDT,SI,                SUTRA........76100
-     1      DSIDP,DSIDT,RELK,PVEC,UVEC,NREG)                             SUTRA........76200
-         CALL OUTNOD(PVEC,UVEC,SW,SL,SI,X,Y,Z,TITLE1,TITLE2,             SUTRA........76300
-     1   BCSFL,BCSTR)                                                    SUTRA........76400
-      END IF                                                             SUTRA........76500
-      PRNK6 = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,LCOLPR).EQ.0))          SUTRA........76600
-     1         .OR.(ITREL.EQ.1)).AND.(K6.NE.-1))                         SUTRA........76700
-      IF (PRNK6) CALL OUTELE(VMAG,VDMAG,VANG1,VANG2,IN,X,Y,Z,            SUTRA........76800
-     1   TITLE1,TITLE2,BCSFL,BCSTR)                                      SUTRA........76900
-C.....PRINT RESULTS TO BOUNDARY CONDITION OUTPUT FILES.                  SUTRA........77000
-      PRNBCF = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBCFPR).EQ.0))         SUTRA........77100
-     1          .OR.((ITREL.EQ.1).AND.(NBCFPR.GT.0))).AND.(K10.NE.-1))   SUTRA........77200
-      PRNBCS = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBCSPR).EQ.0))         SUTRA........77300
-     1          .OR.((ITREL.EQ.1).AND.(NBCSPR.GT.0))).AND.(K11.NE.-1))   SUTRA........77400
-      PRNBCP = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBCPPR).EQ.0))         SUTRA........77500
-     1          .OR.((ITREL.EQ.1).AND.(NBCPPR.GT.0))).AND.(K12.NE.-1))   SUTRA........77600
-      PRNBCU = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBCUPR).EQ.0))         SUTRA........77700
-     1          .OR.((ITREL.EQ.1).AND.(NBCUPR.GT.0))).AND.(K13.NE.-1))   SUTRA........77800
-      PRNBGP = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBGPPR).EQ.0))         SUTRA........77900
-     1          .OR.((ITREL.EQ.1).AND.(NBGPPR.GT.0))).AND.(K14.NE.-1))   SUTRA........78000
-      PRNBGU = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBGUPR).EQ.0))         SUTRA........78100
-     1          .OR.((ITREL.EQ.1).AND.(NBGUPR.GT.0))).AND.(K15.NE.-1))   SUTRA........78200
-      IF (PRNBCF)                                                        SUTRA........78300
-     1   CALL OUTBCOF(QIN,IQSOP,UVEC,UIN,QINITR,IBCSOP,TITLE1,TITLE2,    SUTRA........78400
-     2      IIDSOP)                                                      SUTRA........78500
-      IF (PRNBCS)                                                        SUTRA........78600
-     1   CALL OUTBCOS(QUIN,IQSOU,IBCSOU,TITLE1,TITLE2,IIDSOU)            SUTRA........78700
-      IF (PRNBCP)                                                        SUTRA........78800
-     1   CALL OUTBCOP(PVEC,UVEC,PBC,UBC,QPLITR,GNUPP,IPBC,IBCPBC,        SUTRA........78900
-     2      TITLE1,TITLE2,IIDPBC)                                        SUTRA........79000
-      IF (PRNBCU)                                                        SUTRA........79100
-     1   CALL OUTBCOU(UVEC,UBC,GNUUU,IUBC,IBCUBC,TITLE1,TITLE2,          SUTRA........79200
-     2      IIDUBC)                                                      SUTRA........79300
-      IF (PRNBGP)                                                        SUTRA........79400
-     1   CALL OUTBCOPG(PVEC,UVEC,PBG1,QPBG1,PBG2,QPBG2,UPBGI,UPBGO,      SUTRA........79500
-     1   QPBGIC,GNUPG,QPGITR,IPBG,IBCPBG,IIDPBG,CPQL1,CPQL2,CUPBGO,      SUTRA........79600
-     1   TITLE1,TITLE2)                                                  SUTRA........79700
-      IF (PRNBGU)                                                        SUTRA........79800
-     1   CALL OUTBCOUG(UVEC,UBG1,QUBG1,UBG2,QUBG2,QUBGIC,GNUUG,          SUTRA........79900
-     1   IUBG,IBCUBG,IIDUBG,TITLE1,TITLE2)                               SUTRA........80000
-C.....PRINT RESULTS TO LAKE-RELATED OUTPUT FILES.                        SUTRA........80100
-      IF (LAKUSD) THEN                                                   SUTRA........80200
-         PRNLK = (PRNDEF.OR.((IT.NE.0).AND.(MOD(IT,NLAKPR).EQ.0))        SUTRA........80300
-     1         .OR.((ITREL.EQ.1).AND.(NLAKPR.GT.0)))                     SUTRA........80400
-         IF (PRNLK) THEN                                                 SUTRA........80500
-            CALL OUTLKBU(TITLE1,TITLE2)                                  SUTRA........80600
-            IF (K20.NE.-1) CALL OUTLKST(TITLE1,TITLE2)                   SUTRA........80700
-         END IF                                                          SUTRA........80800
-      END IF                                                             SUTRA........80900
-C.....PRINT RESULTS TO OBSERVATION OUTPUT FILES.  CHECK FOR OUTPUT       SUTRA........81000
-C       SCHEDULED WITHIN THE CURRENT TIME STEP AND PRINT IT.  IF THIS    SUTRA........81100
-C       IS THE INITIAL CONDITION (IT=0) OR THE FINAL TIME STEP, PRINT    SUTRA........81200
-C       RESULTS IF THEY HAVE NOT ALREADY BEEN PRINTED.                   SUTRA........81300
-C.....LOOP OVER OBSERVATION OUTPUT SCHEDULES.                            SUTRA........81400
-      DO 7650 NFLO=1,NFLOMX                                              SUTRA........81500
-C........IF NO FILE FOR THIS OUTPUT, SKIP IT                             SUTRA........81600
-         IF (IUNIO(NFLO).EQ.-1) CYCLE                                    SUTRA........81700
-C........SET FLAG INDICATING THAT OUTPUT HAS NOT (YET) BEEN PRINTED      SUTRA........81800
-C           FOR THE END OF THE CURRENT TIME STEP                         SUTRA........81900
-         TSPRTD = .FALSE.                                                SUTRA........82000
-C........IF TRANSPORT IS TRANSIENT AND THIS IS NOT THE INITIAL           SUTRA........82100
-C            CONDITION, CHECK FOR SCHEDULED OUTPUT AND PRINT IT.         SUTRA........82200
-         IF ((ISSTRA.EQ.0).AND.(ITREL.NE.0)) THEN                        SUTRA........82300
-C...........GET THE LENGTH OF THE SCHEDULE AND THE NEXT TIME/STEP        SUTRA........82400
-C              SCHEDULED TO BE OUTPUT.                                   SUTRA........82500
-            LENSCH = DENOB(NFLO)%LLEN                                    SUTRA........82600
-            IF (LCOB(NFLO).GT.LENSCH) CYCLE                              SUTRA........82700
-            TIME = DENOB(NFLO)%SLIST(LCOB(NFLO))%DVALU1                  SUTRA........82800
-            STEP = DENOB(NFLO)%SLIST(LCOB(NFLO))%DVALU2                  SUTRA........82900
-C...........LOOP THROUGH THE SCHEDULE, PRINTING ANY OUTPUT SCHEDULED     SUTRA........83000
-C              WITHIN THE CURRENT TIME STEP.  (LOOP AS LONG AS THE       SUTRA........83100
-C              SCHEDULED OUTPUT IS WITHIN THE CURRENT TIME STEP          SUTRA........83200
-C              AND THE SCHEDULE HAS NOT BEEN EXHAUSTED.)                 SUTRA........83300
-            DO WHILE ((DIT.GE.STEP).AND.(LCOB(NFLO).LE.LENSCH))          SUTRA........83400
-C..............IF THE SCHEDULED STEP IS NOT ZERO, PRINT RESULTS.         SUTRA........83500
-               IF (STEP.NE.0D0) THEN                                     SUTRA........83600
-                  CALL UPSATS(ISUPSATS,SW,DSWDP,SL,DSLDP,DSLDT,SI,       SUTRA........83700
-     1               DSIDP,DSIDT,RELK,PVEC,UVEC,NREG)                    SUTRA........83800
-                  IF (OFP(NFLO)%FRMT.EQ."OBS") THEN                      SUTRA........83900
-                     CALL OUTOBS(NFLO,OBSPTS,TIME,STEP,PM1,UM1,          SUTRA........84000
-     1                  PVEC,UVEC,TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR)     SUTRA........84100
-                  ELSE                                                   SUTRA........84200
-                     CALL OUTOBC(NFLO,OBSPTS,TIME,STEP,PM1,UM1,          SUTRA........84300
-     1                  PVEC,UVEC,TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR)     SUTRA........84400
-                  END IF                                                 SUTRA........84500
-C.................IF END OF TIME STEP HAS JUST BEEN PRINTED, SET FLAG.   SUTRA........84600
-                  IF (DIT.EQ.STEP) TSPRTD = .TRUE.                       SUTRA........84700
-               END IF                                                    SUTRA........84800
-C..............GO TO THE NEXT ENTRY IN THE SCHEDULE, IF THERE IS ONE,    SUTRA........84900
-C                 AND INCREMENT THE COUNTER.                             SUTRA........85000
-               IF (LCOB(NFLO).LT.LENSCH) THEN                            SUTRA........85100
-                  LCOB(NFLO) = LCOB(NFLO) + 1                            SUTRA........85200
-                  TIME = DENOB(NFLO)%SLIST(LCOB(NFLO))%DVALU1            SUTRA........85300
-                  STEP = DENOB(NFLO)%SLIST(LCOB(NFLO))%DVALU2            SUTRA........85400
-               ELSE                                                      SUTRA........85500
-                  LCOB(NFLO) = LCOB(NFLO) + 1                            SUTRA........85600
-               END IF                                                    SUTRA........85700
-            END DO                                                       SUTRA........85800
-         END IF                                                          SUTRA........85900
-C........IF THIS IS THE INITIAL OR FINAL CONDITION, PRINT IT IF IT       SUTRA........86000
-C           HAS NOT ALREADY BEEN PRINTED.                                SUTRA........86100
-         IF (PRNDEF.AND.(.NOT.TSPRTD)) THEN                              SUTRA........86200
-            CALL UPSATS(ISUPSATS,SW,DSWDP,SL,DSLDP,DSLDT,SI,             SUTRA........86300
-     1         DSIDP,DSIDT,RELK,PVEC,UVEC,NREG)                          SUTRA........86400
-            IF (OFP(NFLO)%FRMT.EQ."OBS") THEN                            SUTRA........86500
-               TIME = TSEC                                               SUTRA........86600
-               CALL OUTOBS(NFLO,OBSPTS,TIME,DIT,PM1,UM1,PVEC,UVEC,       SUTRA........86700
-     1            TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR)                     SUTRA........86800
-            ELSE                                                         SUTRA........86900
-               CALL OUTOBC(NFLO,OBSPTS,TIME,DIT,PM1,UM1,PVEC,UVEC,       SUTRA........87000
-     1            TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR)                     SUTRA........87100
-            END IF                                                       SUTRA........87200
-         END IF                                                          SUTRA........87300
- 7650 CONTINUE                                                           SUTRA........87400
-C                                                                        SUTRA........87500
-C.....STORE RESULTS FOR POSSIBLE RESTART OF SIMULATION EACH              SUTRA........87600
-C        ISTORE TIME STEPS AND AFTER LAST TIME STEP, THEN GO             SUTRA........87700
-C        TO NEXT TIME STEP                                               SUTRA........87800
-      IF (IERR.EQ.0) THEN                                                SUTRA........87900
-         IF ((K4.NE.-1).AND.(ISTORE.NE.0).AND.((ISTOP.NE.0).OR.          SUTRA........88000
-     1      (MOD(IT,ISTORE).EQ.0))) THEN                                 SUTRA........88100
-            QINITR = QIN                                                 SUTRA........88200
-            PITER = PVEC                                                 SUTRA........88300
-            IF (NPBC.NE.0) CALL GETQPLITR(ONCEP)                         SUTRA........88400
-            IF (NPBG.NE.0) CALL GETQPGITR(ONCEP)                         SUTRA........88500
-            CALL OUTRST(PVEC,UVEC,PM1,UM1,CS1,RCIT,SW,QIN,PBC,           SUTRA........88600
-     3         UIN,UBC,QUIN,PBG1,QPBG1,PBG2,QPBG2,UPBGI,UPBGO,UBG1,      SUTRA........88700
-     3         QUBG1,UBG2,QUBG2,IBCPBC,IBCUBC,IBCSOP,IBCSOU,IBCPBG,      SUTRA........88800
-     4         IBCUBG,IIDPBC,IIDUBC,IIDSOP,IIDSOU,IIDPBG,IIDUBG,         SUTRA........88900
-     5         IBCSF,IBCSS,IBCSP,IBCSU,IBCSPG,IBCSUG,CPQL1,CPQL2,CUPBGO, SUTRA........89000
-     6         QPLITR,QPGITR,QINITR,ISPBG,LPBGSP)                        SUTRA........89100
-            IF (LAKUSD) CALL OUTLKRS()                                   SUTRA........89200
-         END IF                                                          SUTRA........89300
-C........IF LAKES UPDATED, STORE INFORMATION FOR LAKES BUDGETS.          SUTRA........89400
-         IF (LAKUP) THEN                                                 SUTRA........89500
-            VOLWO = VOLW                                                 SUTRA........89600
-            STGBO = STGB                                                 SUTRA........89700
-            UWMSO = UWMS                                                 SUTRA........89800
-            UWO = UW                                                     SUTRA........89900
-            ISTATO = ISTAT                                               SUTRA........90000
-            TSECO = TSEC                                                 SUTRA........90100
-            LUTSO = IT                                                   SUTRA........90200
-         END IF                                                          SUTRA........90300
-         IF (ISTOP.EQ.0) GOTO 1000                                       SUTRA........90400
-      END IF                                                             SUTRA........90500
-C                                                                        SUTRA........90600
-C ********************************************************************** SUTRA........90700
-C.....END TIME STEP **************************************************** SUTRA........90800
+C.....OUTPUT RESULTS FOR TIME STEP IN ACCORDANCE WITH PRINT CYCLES       SUTRA........72200
+C                                                                        SUTRA........72300
+C.....COMPUTE SOME LOGICAL CONDITIONS.  PRNALL=.TRUE. INDICATES THAT     SUTRA........72400
+C        ALL RESULTS SHOULD BE PRINTED BECAUSE THIS IS THE LAST TIME     SUTRA........72500
+C        STEP (EITHER BY DESIGN OR BECAUSE OF AN ERROR).  PRN0=.TRUE.    SUTRA........72600
+C        INDICATES THAT INITIAL CONDITIONS ARE TO BE PRINTED FOR A       SUTRA........72700
+C        STEADY-FLOW, TRANSIENT-TRANSPORT RUN.  PRNDEF=.TRUE. IF         SUTRA........72800
+C        EITHER OF THE TWO PRECEDING CONDITIONS IS TRUE.                 SUTRA........72900
+      PRNALL = ((ISTOP.NE.0).OR.(IERR.NE.0))                             SUTRA........73000
+      PRN0 = ((ITREL.EQ.0).AND.(ISSFLO.NE.0).AND.(ISSTRA.NE.1))          SUTRA........73100
+      PRNDEF = (PRNALL.OR.PRN0)                                          SUTRA........73200
+      ISUPSATS = .FALSE.                                                 SUTRA........73300
+C.....PRINT RESULTS TO THE LST OUTPUT FILE                               SUTRA........73400
+      PRNK3 = (PRNDEF.OR.(MOD(IT,NPRINT).EQ.0)                           SUTRA........73500
+     1         .OR.((ITREL.EQ.1).AND.(NPRINT.GT.0)))                     SUTRA........73600
+      IF (PRNK3) THEN                                                    SUTRA........73700
+      CALL UPSATS(ISUPSATS,SW,DSWDP,SL,DSLDP,DSLDT,SI,                   SUTRA........73800
+     1   DSIDP,DSIDT,RELK,PVEC,UVEC,NREG)                                SUTRA........73900
+      IF (KTYPE(1).EQ.3) THEN                                            SUTRA........74000
+         CALL OUTLST3(ML,ISTOP,IGOI,IERRP,ITRSP,ERRP,IERRU,ITRSU,ERRU,   SUTRA........74100
+     1      PVEC,UVEC,VMAG,VDMAG,VANG1,VANG2,SW,SL,SI)                   SUTRA........74200
+      ELSE                                                               SUTRA........74300
+         CALL OUTLST2(ML,ISTOP,IGOI,IERRP,ITRSP,ERRP,IERRU,ITRSU,ERRU,   SUTRA........74400
+     1      PVEC,UVEC,VMAG,VDMAG,VANG1,SW,SL,SI)                         SUTRA........74500
+      END IF                                                             SUTRA........74600
+C.....CALCULATE AND PRINT FLUID MASS AND/OR ENERGY OR SOLUTE MASS BUDGET SUTRA........74700
+      IF(KBUDG.EQ.1)                                                     SUTRA........74800
+     1   CALL BUDGET(ML,IBCT,IQSOPT,IQSOUT,VOL,SW,SL,SI,                 SUTRA........74900
+     2      DSWDP,DSLDP,DSLDT,DSIDP,DSIDT,RHOL,RHOS,PRODL0,PRODS0,       SUTRA........75000
+     3      PRODL1,PRODS1,PRODI0,SOPL,SOPI,QIN,PVEC,PM1,DPDTITR,         SUTRA........75100
+     4      PBC,QPLITR,IPBC,IQSOP,POR,UVEC,UM1,DUDTITR,UIN,QUIN,QINITR,  SUTRA........75200
+     5      IQSOU,UBC,IUBC,CS1,CS2,CS3,SLA,SRA,NREG,NREGAD,GNUPP,GNUUU,  SUTRA........75300
+     6      PITER,UITER,IBCPBC,IBCUBC,IBCSOP,IBCSOU,IBCPBG,IBCUBG,       SUTRA........75400
+     7      IPBG,PBG1,PBG2,QPBG1,QPBG2,QPBGIC,GNUPG,CPQL1,CPQL2,QPGITR,  SUTRA........75500
+     8      IUBG,UBG1,QUBG1,UPBGI,UPBGO,GNUUG,CUPBGO)                    SUTRA........75600
+         ISUPSATS = .FALSE.                                              SUTRA........75700
+      END IF                                                             SUTRA........75800
+C.....PRINT NODEWISE AND ELEMENTWISE RESULTS TO OUTPUT FILES             SUTRA........75900
+      PRNK5 = ((PRNDEF.OR.((IT.NE.0).AND.(MOD(IT,NCOLPR).EQ.0))          SUTRA........76000
+     1         .OR.((ITREL.EQ.1).AND.(NCOLPR.GT.0))).AND.(K5.NE.-1))     SUTRA........76100
+      IF (PRNK5) THEN                                                    SUTRA........76200
+         CALL UPSATS(ISUPSATS,SW,DSWDP,SL,DSLDP,DSLDT,SI,                SUTRA........76300
+     1      DSIDP,DSIDT,RELK,PVEC,UVEC,NREG)                             SUTRA........76400
+         CALL OUTNOD(PVEC,UVEC,SW,SL,SI,X,Y,Z,TITLE1,TITLE2,             SUTRA........76500
+     1   BCSFL,BCSTR)                                                    SUTRA........76600
+      END IF                                                             SUTRA........76700
+      PRNK6 = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,LCOLPR).EQ.0))          SUTRA........76800
+     1         .OR.(ITREL.EQ.1)).AND.(K6.NE.-1))                         SUTRA........76900
+      IF (PRNK6) CALL OUTELE(VMAG,VDMAG,VANG1,VANG2,IN,X,Y,Z,            SUTRA........77000
+     1   TITLE1,TITLE2,BCSFL,BCSTR)                                      SUTRA........77100
+C.....PRINT RESULTS TO BOUNDARY CONDITION OUTPUT FILES.                  SUTRA........77200
+      PRNBCF = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBCFPR).EQ.0))         SUTRA........77300
+     1          .OR.((ITREL.EQ.1).AND.(NBCFPR.GT.0))).AND.(K10.NE.-1))   SUTRA........77400
+      PRNBCS = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBCSPR).EQ.0))         SUTRA........77500
+     1          .OR.((ITREL.EQ.1).AND.(NBCSPR.GT.0))).AND.(K11.NE.-1))   SUTRA........77600
+      PRNBCP = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBCPPR).EQ.0))         SUTRA........77700
+     1          .OR.((ITREL.EQ.1).AND.(NBCPPR.GT.0))).AND.(K12.NE.-1))   SUTRA........77800
+      PRNBCU = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBCUPR).EQ.0))         SUTRA........77900
+     1          .OR.((ITREL.EQ.1).AND.(NBCUPR.GT.0))).AND.(K13.NE.-1))   SUTRA........78000
+      PRNBGP = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBGPPR).EQ.0))         SUTRA........78100
+     1          .OR.((ITREL.EQ.1).AND.(NBGPPR.GT.0))).AND.(K14.NE.-1))   SUTRA........78200
+      PRNBGU = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,NBGUPR).EQ.0))         SUTRA........78300
+     1          .OR.((ITREL.EQ.1).AND.(NBGUPR.GT.0))).AND.(K15.NE.-1))   SUTRA........78400
+      IF (PRNBCF)                                                        SUTRA........78500
+     1   CALL OUTBCOF(QIN,IQSOP,UVEC,UIN,QINITR,IBCSOP,TITLE1,TITLE2,    SUTRA........78600
+     2      IIDSOP)                                                      SUTRA........78700
+      IF (PRNBCS)                                                        SUTRA........78800
+     1   CALL OUTBCOS(QUIN,IQSOU,IBCSOU,TITLE1,TITLE2,IIDSOU)            SUTRA........78900
+      IF (PRNBCP)                                                        SUTRA........79000
+     1   CALL OUTBCOP(PVEC,UVEC,PBC,UBC,QPLITR,GNUPP,IPBC,IBCPBC,        SUTRA........79100
+     2      TITLE1,TITLE2,IIDPBC)                                        SUTRA........79200
+      IF (PRNBCU)                                                        SUTRA........79300
+     1   CALL OUTBCOU(UVEC,UBC,GNUUU,IUBC,IBCUBC,TITLE1,TITLE2,          SUTRA........79400
+     2      IIDUBC)                                                      SUTRA........79500
+      IF (PRNBGP)                                                        SUTRA........79600
+     1   CALL OUTBCOPG(PVEC,UVEC,PBG1,QPBG1,PBG2,QPBG2,UPBGI,UPBGO,      SUTRA........79700
+     1   QPBGIC,GNUPG,QPGITR,IPBG,IBCPBG,IIDPBG,CPQL1,CPQL2,CUPBGO,      SUTRA........79800
+     1   TITLE1,TITLE2)                                                  SUTRA........79900
+      IF (PRNBGU)                                                        SUTRA........80000
+     1   CALL OUTBCOUG(UVEC,UBG1,QUBG1,UBG2,QUBG2,QUBGIC,GNUUG,          SUTRA........80100
+     1   IUBG,IBCUBG,IIDUBG,TITLE1,TITLE2)                               SUTRA........80200
+C.....PRINT RESULTS TO LAKE-RELATED OUTPUT FILES.                        SUTRA........80300
+      IF (LAKUSD) THEN                                                   SUTRA........80400
+         PRNLK = (PRNDEF.OR.((IT.NE.0).AND.(MOD(IT,NLAKPR).EQ.0))        SUTRA........80500
+     1         .OR.((ITREL.EQ.1).AND.(NLAKPR.GT.0)))                     SUTRA........80600
+         IF (PRNLK) THEN                                                 SUTRA........80700
+            CALL OUTLKBU(TITLE1,TITLE2)                                  SUTRA........80800
+            IF (K20.NE.-1) CALL OUTLKST(TITLE1,TITLE2)                   SUTRA........80900
+         END IF                                                          SUTRA........81000
+      END IF                                                             SUTRA........81100
+C.....PRINT RESULTS TO OBSERVATION OUTPUT FILES.  CHECK FOR OUTPUT       SUTRA........81200
+C       SCHEDULED WITHIN THE CURRENT TIME STEP AND PRINT IT.  IF THIS    SUTRA........81300
+C       IS THE INITIAL CONDITION (IT=0) OR THE FINAL TIME STEP, PRINT    SUTRA........81400
+C       RESULTS IF THEY HAVE NOT ALREADY BEEN PRINTED.                   SUTRA........81500
+C.....LOOP OVER OBSERVATION OUTPUT SCHEDULES.                            SUTRA........81600
+      DO 7650 NFLO=1,NFLOMX                                              SUTRA........81700
+C........IF NO FILE FOR THIS OUTPUT, SKIP IT                             SUTRA........81800
+         IF (IUNIO(NFLO).EQ.-1) CYCLE                                    SUTRA........81900
+C........SET FLAG INDICATING THAT OUTPUT HAS NOT (YET) BEEN PRINTED      SUTRA........82000
+C           FOR THE END OF THE CURRENT TIME STEP                         SUTRA........82100
+         TSPRTD = .FALSE.                                                SUTRA........82200
+C........IF TRANSPORT IS TRANSIENT AND THIS IS NOT THE INITIAL           SUTRA........82300
+C            CONDITION, CHECK FOR SCHEDULED OUTPUT AND PRINT IT.         SUTRA........82400
+         IF ((ISSTRA.EQ.0).AND.(ITREL.NE.0)) THEN                        SUTRA........82500
+C...........GET THE LENGTH OF THE SCHEDULE AND THE NEXT TIME/STEP        SUTRA........82600
+C              SCHEDULED TO BE OUTPUT.                                   SUTRA........82700
+            LENSCH = DENOB(NFLO)%LLEN                                    SUTRA........82800
+            IF (LCOB(NFLO).GT.LENSCH) CYCLE                              SUTRA........82900
+            TIME = DENOB(NFLO)%SLIST(LCOB(NFLO))%DVALU1                  SUTRA........83000
+            STEP = DENOB(NFLO)%SLIST(LCOB(NFLO))%DVALU2                  SUTRA........83100
+C...........LOOP THROUGH THE SCHEDULE, PRINTING ANY OUTPUT SCHEDULED     SUTRA........83200
+C              WITHIN THE CURRENT TIME STEP.  (LOOP AS LONG AS THE       SUTRA........83300
+C              SCHEDULED OUTPUT IS WITHIN THE CURRENT TIME STEP          SUTRA........83400
+C              AND THE SCHEDULE HAS NOT BEEN EXHAUSTED.)                 SUTRA........83500
+            DO WHILE ((DIT.GE.STEP).AND.(LCOB(NFLO).LE.LENSCH))          SUTRA........83600
+C..............IF THE SCHEDULED STEP IS NOT ZERO, PRINT RESULTS.         SUTRA........83700
+               IF (STEP.NE.0D0) THEN                                     SUTRA........83800
+                  CALL UPSATS(ISUPSATS,SW,DSWDP,SL,DSLDP,DSLDT,SI,       SUTRA........83900
+     1               DSIDP,DSIDT,RELK,PVEC,UVEC,NREG)                    SUTRA........84000
+                  IF (OFP(NFLO)%FRMT.EQ."OBS") THEN                      SUTRA........84100
+                     CALL OUTOBS(NFLO,OBSPTS,TIME,STEP,PM1,UM1,          SUTRA........84200
+     1                  PVEC,UVEC,TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR)     SUTRA........84300
+                  ELSE                                                   SUTRA........84400
+                     CALL OUTOBC(NFLO,OBSPTS,TIME,STEP,PM1,UM1,          SUTRA........84500
+     1                  PVEC,UVEC,TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR)     SUTRA........84600
+                  END IF                                                 SUTRA........84700
+C.................IF END OF TIME STEP HAS JUST BEEN PRINTED, SET FLAG.   SUTRA........84800
+                  IF (DIT.EQ.STEP) TSPRTD = .TRUE.                       SUTRA........84900
+               END IF                                                    SUTRA........85000
+C..............GO TO THE NEXT ENTRY IN THE SCHEDULE, IF THERE IS ONE,    SUTRA........85100
+C                 AND INCREMENT THE COUNTER.                             SUTRA........85200
+               IF (LCOB(NFLO).LT.LENSCH) THEN                            SUTRA........85300
+                  LCOB(NFLO) = LCOB(NFLO) + 1                            SUTRA........85400
+                  TIME = DENOB(NFLO)%SLIST(LCOB(NFLO))%DVALU1            SUTRA........85500
+                  STEP = DENOB(NFLO)%SLIST(LCOB(NFLO))%DVALU2            SUTRA........85600
+               ELSE                                                      SUTRA........85700
+                  LCOB(NFLO) = LCOB(NFLO) + 1                            SUTRA........85800
+               END IF                                                    SUTRA........85900
+            END DO                                                       SUTRA........86000
+         END IF                                                          SUTRA........86100
+C........IF THIS IS THE INITIAL OR FINAL CONDITION, PRINT IT IF IT       SUTRA........86200
+C           HAS NOT ALREADY BEEN PRINTED.                                SUTRA........86300
+         IF (PRNDEF.AND.(.NOT.TSPRTD)) THEN                              SUTRA........86400
+            CALL UPSATS(ISUPSATS,SW,DSWDP,SL,DSLDP,DSLDT,SI,             SUTRA........86500
+     1         DSIDP,DSIDT,RELK,PVEC,UVEC,NREG)                          SUTRA........86600
+            IF (OFP(NFLO)%FRMT.EQ."OBS") THEN                            SUTRA........86700
+               TIME = TSEC                                               SUTRA........86800
+               CALL OUTOBS(NFLO,OBSPTS,TIME,DIT,PM1,UM1,PVEC,UVEC,       SUTRA........86900
+     1            TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR)                     SUTRA........87000
+            ELSE                                                         SUTRA........87100
+               CALL OUTOBC(NFLO,OBSPTS,TIME,DIT,PM1,UM1,PVEC,UVEC,       SUTRA........87200
+     1            TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR)                     SUTRA........87300
+            END IF                                                       SUTRA........87400
+         END IF                                                          SUTRA........87500
+ 7650 CONTINUE                                                           SUTRA........87600
+C                                                                        SUTRA........87700
+C.....STORE RESULTS FOR POSSIBLE RESTART OF SIMULATION EACH              SUTRA........87800
+C        ISTORE TIME STEPS AND AFTER LAST TIME STEP, THEN GO             SUTRA........87900
+C        TO NEXT TIME STEP                                               SUTRA........88000
+      IF (IERR.EQ.0) THEN                                                SUTRA........88100
+         IF ((K4.NE.-1).AND.(ISTORE.NE.0).AND.((ISTOP.NE.0).OR.          SUTRA........88200
+     1      (MOD(IT,ISTORE).EQ.0))) THEN                                 SUTRA........88300
+            QINITR = QIN                                                 SUTRA........88400
+            PITER = PVEC                                                 SUTRA........88500
+            IF (NPBC.NE.0) CALL GETQPLITR(ONCEP)                         SUTRA........88600
+            IF (NPBG.NE.0) CALL GETQPGITR(ONCEP)                         SUTRA........88700
+            CALL OUTRST(PVEC,UVEC,PM1,UM1,CS1,RCIT,SW,QIN,PBC,           SUTRA........88800
+     3         UIN,UBC,QUIN,PBG1,QPBG1,PBG2,QPBG2,UPBGI,UPBGO,UBG1,      SUTRA........88900
+     3         QUBG1,UBG2,QUBG2,IBCPBC,IBCUBC,IBCSOP,IBCSOU,IBCPBG,      SUTRA........89000
+     4         IBCUBG,IIDPBC,IIDUBC,IIDSOP,IIDSOU,IIDPBG,IIDUBG,         SUTRA........89100
+     5         IBCSF,IBCSS,IBCSP,IBCSU,IBCSPG,IBCSUG,CPQL1,CPQL2,CUPBGO, SUTRA........89200
+     6         QPLITR,QPGITR,QINITR,ISPBG,LPBGSP)                        SUTRA........89300
+            IF (LAKUSD) CALL OUTLKRS()                                   SUTRA........89400
+         END IF                                                          SUTRA........89500
+C........IF LAKES UPDATED, STORE INFORMATION FOR LAKES BUDGETS.          SUTRA........89600
+         IF (LAKUP) THEN                                                 SUTRA........89700
+            VOLWO = VOLW                                                 SUTRA........89800
+            STGBO = STGB                                                 SUTRA........89900
+            UWMSO = UWMS                                                 SUTRA........90000
+            UWO = UW                                                     SUTRA........90100
+            ISTATO = ISTAT                                               SUTRA........90200
+            TSECO = TSEC                                                 SUTRA........90300
+            LUTSO = IT                                                   SUTRA........90400
+         END IF                                                          SUTRA........90500
+         IF (ISTOP.EQ.0) GOTO 1000                                       SUTRA........90600
+      END IF                                                             SUTRA........90700
+C                                                                        SUTRA........90800
 C ********************************************************************** SUTRA........90900
-C                                                                        SUTRA........91000
-C                                                                        SUTRA........91100
-C.....DEALLOCATE ARRAY DENOB                                             SUTRA........91200
-      DEALLOCATE (DENOB)                                                 SUTRA........91300
-C                                                                        SUTRA........91400
-C.....WRAP UP LAKES                                                      SUTRA........91500
-      IF (LAKUSD) CALL LAKDON()                                          SUTRA........91600
-C                                                                        SUTRA........91700
-C.....COMPLETE OUTPUT AND TERMINATE SIMULATION                           SUTRA........91800
-      IF (IERRP.NE.0) THEN                                               SUTRA........91900
-         ERRCOD = 'SOL-1'                                                SUTRA........92000
-         CHERR(1) = 'P'                                                  SUTRA........92100
-         CHERR(2) = SOLWRD(KSOLVP)                                       SUTRA........92200
-         INERR(1) = IERRP                                                SUTRA........92300
-         INERR(2) = ITRSP                                                SUTRA........92400
-         RLERR(1) = ERRP                                                 SUTRA........92500
-         RLERR(2) = TOLP                                                 SUTRA........92600
-         CALL SUTERR(ERRCOD, CHERR, INERR, RLERR)                        SUTRA........92700
-      ELSE IF (IERRU.NE.0) THEN                                          SUTRA........92800
-         ERRCOD = 'SOL-1'                                                SUTRA........92900
-         CHERR(1) = 'U'                                                  SUTRA........93000
-         CHERR(2) = SOLWRD(KSOLVU)                                       SUTRA........93100
-         INERR(1) = IERRU                                                SUTRA........93200
-         INERR(2) = ITRSU                                                SUTRA........93300
-         RLERR(1) = ERRU                                                 SUTRA........93400
-         RLERR(2) = TOLU                                                 SUTRA........93500
-         CALL SUTERR(ERRCOD, CHERR, INERR, RLERR)                        SUTRA........93600
-      END IF                                                             SUTRA........93700
-C                                                                        SUTRA........93800
-      IF(ISTORE.GT.0) WRITE(K3,8100)                                     SUTRA........93900
- 8100 FORMAT(//////11X,'*** LAST SOLUTION HAS BEEN STORED ',             SUTRA........94000
-     1   'IN THE RESTART DATA FILE ***')                                 SUTRA........94100
-C                                                                        SUTRA........94200
-C.....OUTPUT END OF SIMULATION MESSAGE AND RETURN TO MAIN FOR STOP       SUTRA........94300
-      IF(ISTOP.EQ.-1) THEN                                               SUTRA........94400
-         ERRCOD = 'CON-1'                                                SUTRA........94500
-         IF (ME.EQ.1) THEN                                               SUTRA........94600
-            CDUM80 = 'temperature'                                       SUTRA........94700
-            LENC = 11                                                    SUTRA........94800
-         ELSE                                                            SUTRA........94900
-            CDUM80 = 'concentration'                                     SUTRA........95000
-            LENC = 13                                                    SUTRA........95100
-         END IF                                                          SUTRA........95200
-         IF (IGOI.EQ.1) THEN                                             SUTRA........95300
-            CHERR(1) = 'pressure'                                        SUTRA........95400
-            LENC = 8                                                     SUTRA........95500
-         ELSE IF (IGOI.EQ.2) THEN                                        SUTRA........95600
-            CHERR(1) = CDUM80                                            SUTRA........95700
-         ELSE IF (IGOI.EQ.3) THEN                                        SUTRA........95800
-            CHERR(1) = 'pressure and ' // CDUM80(1:LENC)                 SUTRA........95900
-            LENC = 13 + LENC                                             SUTRA........96000
-         END IF                                                          SUTRA........96100
-         INERR(1) = IPWORS                                               SUTRA........96200
-         INERR(2) = IUWORS                                               SUTRA........96300
-         INERR(3) = ITER                                                 SUTRA........96400
-         INERR(4) = LENC                                                 SUTRA........96500
-         RLERR(1) = RPM                                                  SUTRA........96600
-         RLERR(2) = RPMAX                                                SUTRA........96700
-         RLERR(3) = RUM                                                  SUTRA........96800
-         RLERR(4) = RUMAX                                                SUTRA........96900
-         CALL SUTERR(ERRCOD, CHERR, INERR, RLERR)                        SUTRA........97000
-      ELSE IF (ISTOP.EQ.2) THEN                                          SUTRA........97100
-         WRITE(K3,8450)                                                  SUTRA........97200
- 8450    FORMAT(////////11X,'SUTRA SIMULATION TERMINATED AT',            SUTRA........97300
-     1      ' COMPLETION OF TIME PERIOD'/                                SUTRA........97400
-     2                  11X,'***** ********** ********** **',            SUTRA........97500
-     3      ' ********** ** **** ******')                                SUTRA........97600
-      ELSE                                                               SUTRA........97700
-         WRITE(K3,8550)                                                  SUTRA........97800
- 8550    FORMAT(////////11X,'SUTRA SIMULATION TERMINATED AT',            SUTRA........97900
-     1      ' COMPLETION OF TIME STEPS'/                                 SUTRA........98000
-     2                  11X,'***** ********** ********** **',            SUTRA........98100
-     3      ' ********** ** **** *****')                                 SUTRA........98200
-      END IF                                                             SUTRA........98300
-C                                                                        SUTRA........98400
-      IF (KSCRN.EQ.1) WRITE(*,8590)                                      SUTRA........98500
-      WRITE(K00,8590)                                                    SUTRA........98600
- 8590 FORMAT(/1X,'S I M U L A T I O N   E N D E D'/)                     SUTRA........98700
-      RETURN                                                             SUTRA........98800
-C                                                                        SUTRA........98900
-      END                                                                SUTRA........99000
+C.....END TIME STEP **************************************************** SUTRA........91000
+C ********************************************************************** SUTRA........91100
+C                                                                        SUTRA........91200
+C                                                                        SUTRA........91300
+C.....DEALLOCATE ARRAY DENOB                                             SUTRA........91400
+      DEALLOCATE (DENOB)                                                 SUTRA........91500
+C                                                                        SUTRA........91600
+C.....WRAP UP LAKES                                                      SUTRA........91700
+      IF (LAKUSD) CALL LAKDON()                                          SUTRA........91800
+C                                                                        SUTRA........91900
+C.....COMPLETE OUTPUT AND TERMINATE SIMULATION                           SUTRA........92000
+      IF (IERRP.NE.0) THEN                                               SUTRA........92100
+         ERRCOD = 'SOL-1'                                                SUTRA........92200
+         CHERR(1) = 'P'                                                  SUTRA........92300
+         CHERR(2) = SOLWRD(KSOLVP)                                       SUTRA........92400
+         INERR(1) = IERRP                                                SUTRA........92500
+         INERR(2) = ITRSP                                                SUTRA........92600
+         RLERR(1) = ERRP                                                 SUTRA........92700
+         RLERR(2) = TOLP                                                 SUTRA........92800
+         CALL SUTERR(ERRCOD, CHERR, INERR, RLERR)                        SUTRA........92900
+      ELSE IF (IERRU.NE.0) THEN                                          SUTRA........93000
+         ERRCOD = 'SOL-1'                                                SUTRA........93100
+         CHERR(1) = 'U'                                                  SUTRA........93200
+         CHERR(2) = SOLWRD(KSOLVU)                                       SUTRA........93300
+         INERR(1) = IERRU                                                SUTRA........93400
+         INERR(2) = ITRSU                                                SUTRA........93500
+         RLERR(1) = ERRU                                                 SUTRA........93600
+         RLERR(2) = TOLU                                                 SUTRA........93700
+         CALL SUTERR(ERRCOD, CHERR, INERR, RLERR)                        SUTRA........93800
+      END IF                                                             SUTRA........93900
+C                                                                        SUTRA........94000
+      IF(ISTORE.GT.0) WRITE(K3,8100)                                     SUTRA........94100
+ 8100 FORMAT(//////11X,'*** LAST SOLUTION HAS BEEN STORED ',             SUTRA........94200
+     1   'IN THE RESTART DATA FILE ***')                                 SUTRA........94300
+C                                                                        SUTRA........94400
+C.....OUTPUT END OF SIMULATION MESSAGE AND RETURN TO MAIN FOR STOP       SUTRA........94500
+      IF(ISTOP.EQ.-1) THEN                                               SUTRA........94600
+         ERRCOD = 'CON-1'                                                SUTRA........94700
+         IF (ME.EQ.1) THEN                                               SUTRA........94800
+            CDUM80 = 'temperature'                                       SUTRA........94900
+            LENC = 11                                                    SUTRA........95000
+         ELSE                                                            SUTRA........95100
+            CDUM80 = 'concentration'                                     SUTRA........95200
+            LENC = 13                                                    SUTRA........95300
+         END IF                                                          SUTRA........95400
+         IF (IGOI.EQ.1) THEN                                             SUTRA........95500
+            CHERR(1) = 'pressure'                                        SUTRA........95600
+            LENC = 8                                                     SUTRA........95700
+         ELSE IF (IGOI.EQ.2) THEN                                        SUTRA........95800
+            CHERR(1) = CDUM80                                            SUTRA........95900
+         ELSE IF (IGOI.EQ.3) THEN                                        SUTRA........96000
+            CHERR(1) = 'pressure and ' // CDUM80(1:LENC)                 SUTRA........96100
+            LENC = 13 + LENC                                             SUTRA........96200
+         END IF                                                          SUTRA........96300
+         INERR(1) = IPWORS                                               SUTRA........96400
+         INERR(2) = IUWORS                                               SUTRA........96500
+         INERR(3) = ITER                                                 SUTRA........96600
+         INERR(4) = LENC                                                 SUTRA........96700
+         RLERR(1) = RPM                                                  SUTRA........96800
+         RLERR(2) = RPMAX                                                SUTRA........96900
+         RLERR(3) = RUM                                                  SUTRA........97000
+         RLERR(4) = RUMAX                                                SUTRA........97100
+         CALL SUTERR(ERRCOD, CHERR, INERR, RLERR)                        SUTRA........97200
+      ELSE IF (ISTOP.EQ.2) THEN                                          SUTRA........97300
+         WRITE(K3,8450)                                                  SUTRA........97400
+ 8450    FORMAT(////////11X,'SUTRA SIMULATION TERMINATED AT',            SUTRA........97500
+     1      ' COMPLETION OF TIME PERIOD'/                                SUTRA........97600
+     2                  11X,'***** ********** ********** **',            SUTRA........97700
+     3      ' ********** ** **** ******')                                SUTRA........97800
+      ELSE                                                               SUTRA........97900
+         WRITE(K3,8550)                                                  SUTRA........98000
+ 8550    FORMAT(////////11X,'SUTRA SIMULATION TERMINATED AT',            SUTRA........98100
+     1      ' COMPLETION OF TIME STEPS'/                                 SUTRA........98200
+     2                  11X,'***** ********** ********** **',            SUTRA........98300
+     3      ' ********** ** **** *****')                                 SUTRA........98400
+      END IF                                                             SUTRA........98500
+C                                                                        SUTRA........98600
+      IF (KSCRN.EQ.1) WRITE(*,8590)                                      SUTRA........98700
+      WRITE(K00,8590)                                                    SUTRA........98800
+ 8590 FORMAT(/1X,'S I M U L A T I O N   E N D E D'/)                     SUTRA........98900
+      RETURN                                                             SUTRA........99000
 C                                                                        SUTRA........99100
+      END                                                                SUTRA........99200
+C                                                                        SUTRA........99300
 C     SUBROUTINE        T  E  N  S  Y  M           SUTRA VERSION 4.0     TENSYM.........100
 C                                                                        TENSYM.........200
 C *** PURPOSE :                                                          TENSYM.........300
@@ -20007,34 +20007,34 @@ C.....TERMINATION SEQUENCE: DEALLOCATE ARRAYS, CLOSE FILES, AND STOP     TERSEQ.
       DEALLOCATE(SWPNM,SLPNM,RKPNM)                                      TERSEQ........8500
 C.....ARRAY IUNIO WILL BE DEALLOCATED AFTER THE OBSERVATION OUTPUT       TERSEQ........8600
 C        FILES ARE CLOSED                                                TERSEQ........8700
-      IF (K00.NE.-1) CLOSE(K00)                                          ! fix ph 240409  TERSEQ........8000
-      IF (K0.NE.-1) CLOSE(K0)                                            ! fix ph 240409  TERSEQ........8100
-      IF (K1.NE.-1) CLOSE(K1)                                            ! fix ph 240409  TERSEQ........8200
-      IF (K2.NE.-1) CLOSE(K2)                                            ! fix ph 240409  TERSEQ........8300
-      IF (K3.NE.-1) CLOSE(K3)                                            ! fix ph 240409  TERSEQ........8400
-      IF (K4.NE.-1) CLOSE(K4)                                            ! fix ph 240409  TERSEQ........8500
-      IF (K5.NE.-1) CLOSE(K5)                                            ! fix ph 240409  TERSEQ........8600
-      IF (K6.NE.-1) CLOSE(K6)                                            ! fix ph 240409  TERSEQ........8700
-      IF (K7.NE.-1) CLOSE(K7)                                            ! fix ph 240409  TERSEQ........8800
-      IF (K8.NE.-1) CLOSE(K8)                                            ! fix ph 240409  TERSEQ........8900
-      IF (K9.NE.-1) CLOSE(K9)                                            ! fix ph 240409  TERSEQ........9000
-      IF (K10.NE.-1) CLOSE(K10)                                          ! fix ph 240409  TERSEQ........9100
-      IF (K11.NE.-1) CLOSE(K11)                                          ! fix ph 240409  TERSEQ........9200
-      IF (K12.NE.-1) CLOSE(K12)                                          ! fix ph 240409  TERSEQ........9300
-      IF (K13.NE.-1) CLOSE(K13)                                          ! fix ph 240409  TERSEQ........9400
-      IF (K14.NE.-1) CLOSE(K14)                                          ! fix ph 240409  TERSEQ........9500
-      IF (K15.NE.-1) CLOSE(K15)                                          ! fix ph 240409  TERSEQ........9600
-      IF (K16.NE.-1) CLOSE(K16)                                          ! fix ph 240409  TERSEQ........9700
-      IF (K17.NE.-1) CLOSE(K17)                                          ! fix ph 240409  TERSEQ........9800
-      IF (K18.NE.-1) CLOSE(K18)                                          ! fix ph 240409  TERSEQ........9900
-      IF (K19.NE.-1) CLOSE(K19)                                          ! fix ph 240409  TERSEQ.......10000
-      IF (K20.NE.-1) CLOSE(K20)                                          ! fix ph 240409  TERSEQ.......10100
-      IF (K21.NE.-1) CLOSE(K21)                                          ! fix ph 240409  TERSEQ.......10200
-      IF (K22.NE.-1) CLOSE(K22)                                          ! fix ph 240409  TERSEQ.......10300
-      IF (K23.NE.-1) CLOSE(K23)                                          ! fix ph 240409  TERSEQ.......10400
-      DO 8000 NFO=1,NFLOMX                                               ! fix ph 240409  TERSEQ.......10500
-         IF (IUNIO(NFO).NE.-1) CLOSE(IUNIO(NFO))                         ! fix ph 240409  TERSEQ.......10600
- 8000 CONTINUE                                                           ! fix ph 240409  TERSEQ.......10700
+      IF (K00.NE.-1) CLOSE(K00)                                          TERSEQ........8800
+      IF (K0.NE.-1) CLOSE(K0)                                            TERSEQ........8900
+      IF (K1.NE.-1) CLOSE(K1)                                            TERSEQ........9000
+      IF (K2.NE.-1) CLOSE(K2)                                            TERSEQ........9100
+      IF (K3.NE.-1) CLOSE(K3)                                            TERSEQ........9200
+      IF (K4.NE.-1) CLOSE(K4)                                            TERSEQ........9300
+      IF (K5.NE.-1) CLOSE(K5)                                            TERSEQ........9400
+      IF (K6.NE.-1) CLOSE(K6)                                            TERSEQ........9500
+      IF (K7.NE.-1) CLOSE(K7)                                            TERSEQ........9600
+      IF (K8.NE.-1) CLOSE(K8)                                            TERSEQ........9700
+      IF (K9.NE.-1) CLOSE(K9)                                            TERSEQ........9800
+      IF (K10.NE.-1) CLOSE(K10)                                          TERSEQ........9900
+      IF (K11.NE.-1) CLOSE(K11)                                          TERSEQ.......10000
+      IF (K12.NE.-1) CLOSE(K12)                                          TERSEQ.......10100
+      IF (K13.NE.-1) CLOSE(K13)                                          TERSEQ.......10200
+      IF (K14.NE.-1) CLOSE(K14)                                          TERSEQ.......10300
+      IF (K15.NE.-1) CLOSE(K15)                                          TERSEQ.......10400
+      IF (K16.NE.-1) CLOSE(K16)                                          TERSEQ.......10500
+      IF (K17.NE.-1) CLOSE(K17)                                          TERSEQ.......10600
+      IF (K18.NE.-1) CLOSE(K18)                                          TERSEQ.......10700
+      IF (K19.NE.-1) CLOSE(K19)                                          TERSEQ.......10800
+      IF (K20.NE.-1) CLOSE(K20)                                          TERSEQ.......10900
+      IF (K21.NE.-1) CLOSE(K21)                                          TERSEQ.......11000
+      IF (K22.NE.-1) CLOSE(K22)                                          TERSEQ.......11100
+      IF (K23.NE.-1) CLOSE(K23)                                          TERSEQ.......11200
+      DO 8000 NFO=1,NFLOMX                                               TERSEQ.......11300
+         IF (IUNIO(NFO).NE.-1) CLOSE(IUNIO(NFO))                         TERSEQ.......11400
+ 8000 CONTINUE                                                           TERSEQ.......11500
       IF (ALCOBS) DEALLOCATE(IUNIO)                                      TERSEQ.......11600
       IF ((KSCRN.EQ.1).AND.(KPAUSE.EQ.1)) THEN                           TERSEQ.......11700
          WRITE(*,9990)                                                   TERSEQ.......11800
@@ -20117,89 +20117,89 @@ C                                                                        TIMETS.
       RETURN                                                             TIMETS........3200
       END                                                                TIMETS........3300
 C                                                                        TIMETS........3400
-C     SUBROUTINE        U  B  C  M  A  T           SUTRA VERSION 3.0     ! fix bk 231103 ...
-C                                                                       
-C *** PURPOSE :                                                         
-C ***  TO RESTORE SPEC-U MATRIX OFF-DIAGONALS.                          
-C                                                                       
-      SUBROUTINE UBCMAT(ML,UMAT,IA,JA,IBCUBC,ISUBC)                     
-      USE LARR, ONLY : LKBCUBC                                          
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)                               
-      DIMENSION UMAT(NELT,NCBI)                                         
-      INTEGER(1) IBCUBC(NBCN)                                           
-      DIMENSION IA(NDIMIA),JA(NDIMJA),ISUBC(NN)  
-      DIMENSION KTYPE(2)                                                 ! fix ph 240409               
-      COMMON /CONTRL/ GNUP,GNUU,UP,DTMULT,DTMAX,ME,ISSFLO,ISSTRA,ITCYC, 
-     1   NPCYC,NUCYC,NPRINT,NBCFPR,NBCSPR,NBCPPR,NBCUPR,NLAKPR,IREAD,   
-     1   NBGPPR,NBGUPR,ISTORE,NOUMAT,IUNSAT,IALSAT,KTYPE                
-      COMMON /DIMS/ NN,NE,NIN,NBI,NCBI,NB,NBHALF,NPBC,NUBC,             
-     1   NSOP,NSOU,NBCN,NPBG,NUBG,NCIDB                                 
-      COMMON /DIMX/ NWI,NWF,NWL,NELT,NNNX,NEX,N48                       
-      COMMON /DIMX2/ NELTA,NNVEC,NDIMIA,NDIMJA                          
-      COMMON /SOLVI/ KSOLVP,KSOLVU,NN1,NN2,NN3                          
-C                                                                       
-C                                                                       
-C.....SET UP MATRIX STRUCTURE INFORMATION                               
-      IF (KSOLVP.EQ.0) THEN                                             
-         JMID = NBHALF                                                  
-      ELSE                                                              
-         JMID = 1                                                       
-      END IF                                                            
-C                                                                       
- 1050 IF (ML.NE.1) THEN                                                 
- 1100 IF(NUBC.EQ.0) GOTO 3000                                           
-C                                                                       
-C.....FOR ALL SOLVERS, RESTORE SPEC-U MATRIX OFF-DIAGONALS              
-      IF (KSOLVU.EQ.0) THEN                                             
-C........DIRECT SOLVER                                                  
-         DO 1140 I=1,NN                                                 
-            IB = I                                                      
-            DO 1120 JB=1,NB                                             
-               J=JB+IB-NBHALF                                           
-               IF ((J.EQ.I).OR.(J.LT.1).OR.(J.GT.NN)) CYCLE             
-               JPU = ISUBC(J)                                           
-               IF (JPU.NE.0) THEN                                       
-                  IF ((IBCUBC(JPU).NE.2).AND.(LKBCUBC(JPU))) THEN       
-                     UMAT(IB,JB) = UMAT(IB,JB)*GNUU                     
-                  END IF                                                
-               END IF                                                   
- 1120       CONTINUE                                                    
- 1140    CONTINUE                                                       
-      ELSE                                                              
-C........ITERATIVE SOLVER (SLAP COLUMN)                                 
-         DO 1180 I=1,NN                                                 
-            MDBEG = JA(I)                                               
-            MDEND = JA(I + 1) - 1                                       
-            DO 1170 MJ=MDBEG+1,MDEND                                    
-               J = IA(MJ)                                               
-C..............ASSUME MATRIX STRUCTURE IS SYMMETRIC, EVEN IF            
-C                 MATRIX VALUES ARE NOT                                 
-               MBEG = JA(J)                                             
-               MEND = JA(J + 1) - 1                                     
-               DO 1150 MM=MBEG,MEND                                     
-                  IF (I.EQ.IA(MM)) THEN                                 
-                     M = MM                                             
-                     GOTO 1152                                          
-                  END IF                                                
- 1150          CONTINUE                                                 
- 1152          JPU = ISUBC(J)                                           
-               IF (JPU.NE.0) THEN                                       
-                  IF ((IBCUBC(JPU).NE.2).AND.(LKBCUBC(JPU))) THEN       
-                     UMAT(M,1) = UMAT(M,1)*GNUU
-                  END IF                                                
-               END IF                                                   
- 1170       CONTINUE                                                    
- 1180    CONTINUE                                                       
-      END IF                                                            
-C                                                                       
-      END IF                                                            
-C
- 3000 CONTINUE                                                          
-C                                                                       
-C                                                                       
-      RETURN                                                            
-      END                                                               
-C                                                                        ! ... fix bk 231103
+C     SUBROUTINE        U  B  C  M  A  T           SUTRA VERSION 4.0     UBCMAT.........100
+C                                                                        UBCMAT.........200
+C *** PURPOSE :                                                          UBCMAT.........300
+C ***  TO RESTORE SPEC-U MATRIX OFF-DIAGONALS.                           UBCMAT.........400
+C                                                                        UBCMAT.........500
+      SUBROUTINE UBCMAT(ML,UMAT,IA,JA,IBCUBC,ISUBC)                      UBCMAT.........600
+      USE LARR, ONLY : LKBCUBC                                           UBCMAT.........700
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)                                UBCMAT.........800
+      DIMENSION UMAT(NELT,NCBI)                                          UBCMAT.........900
+      INTEGER(1) IBCUBC(NBCN)                                            UBCMAT........1000
+      DIMENSION IA(NDIMIA),JA(NDIMJA),ISUBC(NN)                          UBCMAT........1100
+      DIMENSION KTYPE(2)                                                 UBCMAT........1200
+      COMMON /CONTRL/ GNUP,GNUU,UP,DTMULT,DTMAX,ME,ISSFLO,ISSTRA,ITCYC,  UBCMAT........1300
+     1   NPCYC,NUCYC,NPRINT,NBCFPR,NBCSPR,NBCPPR,NBCUPR,NLAKPR,IREAD,    UBCMAT........1400
+     1   NBGPPR,NBGUPR,ISTORE,NOUMAT,IUNSAT,IALSAT,KTYPE                 UBCMAT........1500
+      COMMON /DIMS/ NN,NE,NIN,NBI,NCBI,NB,NBHALF,NPBC,NUBC,              UBCMAT........1600
+     1   NSOP,NSOU,NBCN,NPBG,NUBG,NCIDB                                  UBCMAT........1700
+      COMMON /DIMX/ NWI,NWF,NWL,NELT,NNNX,NEX,N48                        UBCMAT........1800
+      COMMON /DIMX2/ NELTA,NNVEC,NDIMIA,NDIMJA                           UBCMAT........1900
+      COMMON /SOLVI/ KSOLVP,KSOLVU,NN1,NN2,NN3                           UBCMAT........2000
+C                                                                        UBCMAT........2100
+C                                                                        UBCMAT........2200
+C.....SET UP MATRIX STRUCTURE INFORMATION                                UBCMAT........2300
+      IF (KSOLVP.EQ.0) THEN                                              UBCMAT........2400
+         JMID = NBHALF                                                   UBCMAT........2500
+      ELSE                                                               UBCMAT........2600
+         JMID = 1                                                        UBCMAT........2700
+      END IF                                                             UBCMAT........2800
+C                                                                        UBCMAT........2900
+ 1050 IF (ML.NE.1) THEN                                                  UBCMAT........3000
+ 1100 IF(NUBC.EQ.0) GOTO 3000                                            UBCMAT........3100
+C                                                                        UBCMAT........3200
+C.....FOR ALL SOLVERS, RESTORE SPEC-U MATRIX OFF-DIAGONALS               UBCMAT........3300
+      IF (KSOLVU.EQ.0) THEN                                              UBCMAT........3400
+C........DIRECT SOLVER                                                   UBCMAT........3500
+         DO 1140 I=1,NN                                                  UBCMAT........3600
+            IB = I                                                       UBCMAT........3700
+            DO 1120 JB=1,NB                                              UBCMAT........3800
+               J=JB+IB-NBHALF                                            UBCMAT........3900
+               IF ((J.EQ.I).OR.(J.LT.1).OR.(J.GT.NN)) CYCLE              UBCMAT........4000
+               JPU = ISUBC(J)                                            UBCMAT........4100
+               IF (JPU.NE.0) THEN                                        UBCMAT........4200
+                  IF ((IBCUBC(JPU).NE.2).AND.(LKBCUBC(JPU))) THEN        UBCMAT........4300
+                     UMAT(IB,JB) = UMAT(IB,JB)*GNUU                      UBCMAT........4400
+                  END IF                                                 UBCMAT........4500
+               END IF                                                    UBCMAT........4600
+ 1120       CONTINUE                                                     UBCMAT........4700
+ 1140    CONTINUE                                                        UBCMAT........4800
+      ELSE                                                               UBCMAT........4900
+C........ITERATIVE SOLVER (SLAP COLUMN)                                  UBCMAT........5000
+         DO 1180 I=1,NN                                                  UBCMAT........5100
+            MDBEG = JA(I)                                                UBCMAT........5200
+            MDEND = JA(I + 1) - 1                                        UBCMAT........5300
+            DO 1170 MJ=MDBEG+1,MDEND                                     UBCMAT........5400
+               J = IA(MJ)                                                UBCMAT........5500
+C..............ASSUME MATRIX STRUCTURE IS SYMMETRIC, EVEN IF             UBCMAT........5600
+C                 MATRIX VALUES ARE NOT                                  UBCMAT........5700
+               MBEG = JA(J)                                              UBCMAT........5800
+               MEND = JA(J + 1) - 1                                      UBCMAT........5900
+               DO 1150 MM=MBEG,MEND                                      UBCMAT........6000
+                  IF (I.EQ.IA(MM)) THEN                                  UBCMAT........6100
+                     M = MM                                              UBCMAT........6200
+                     GOTO 1152                                           UBCMAT........6300
+                  END IF                                                 UBCMAT........6400
+ 1150          CONTINUE                                                  UBCMAT........6500
+ 1152          JPU = ISUBC(J)                                            UBCMAT........6600
+               IF (JPU.NE.0) THEN                                        UBCMAT........6700
+                  IF ((IBCUBC(JPU).NE.2).AND.(LKBCUBC(JPU))) THEN        UBCMAT........6800
+                     UMAT(M,1) = UMAT(M,1)*GNUU                          UBCMAT........6900
+                  END IF                                                 UBCMAT........7000
+               END IF                                                    UBCMAT........7100
+ 1170       CONTINUE                                                     UBCMAT........7200
+ 1180    CONTINUE                                                        UBCMAT........7300
+      END IF                                                             UBCMAT........7400
+C                                                                        UBCMAT........7500
+      END IF                                                             UBCMAT........7600
+C                                                                        UBCMAT........7700
+ 3000 CONTINUE                                                           UBCMAT........7800
+C                                                                        UBCMAT........7900
+C                                                                        UBCMAT........8000
+      RETURN                                                             UBCMAT........8100
+      END                                                                UBCMAT........8200
+C                                                                        UBCMAT........8300
 C     SUBROUTINE        U  P  S  A  T  S           SUTRA VERSION 4.0     UPSATS.........100
 C                                                                        UPSATS.........200
 C *** PURPOSE :                                                          UPSATS.........300

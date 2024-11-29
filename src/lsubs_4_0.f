@@ -1573,48 +1573,48 @@ C                                                                        LAKDON.
       COMMON /FUNITS/ K00,K0,K1,K2,K3,K4,K5,K6,K7,K8,K9,                 LAKDON........1300
      1   K10,K11,K12,K13,K14,K15,K16,K17,K18,K19,K20,K21,K22,K23         LAKDON........1400
 C                                                                        LAKDON........1500
-C.....DEALLOCATE ARRAYS.                                                 LAKDON........2600
-      DEALLOCATE (PLK, ULK)                                              LAKDON........2700
-      DEALLOCATE (ULKITR)                                                LAKDON........2800
-      DEALLOCATE (KL)                                                    LAKDON........2900
-      DEALLOCATE (KLOW, KHIGH, KVMAX)                                    LAKDON........3000
-      DEALLOCATE (ISLIMITED,ISSPLIT)                                     LAKDON........3100
-      DEALLOCATE (FRRO, FDRO)                                            LAKDON........3200
-      DEALLOCATE (LAKNOD)                                                LAKDON........3300
-      DEALLOCATE (LLOW, LLOWN, ISTAT, VOLW, UW)                          LAKDON........3400
-      DEALLOCATE (VOLWM1, UWM1, UWMSM1, ISTATM1)                         LAKDON........3500
-      DEALLOCATE (VOVER, WMOVER, SMOVER, STGB)                           LAKDON........3600
-      DEALLOCATE (LPAR, LCHD, LSIB)                                      LAKDON........3700
-      DEALLOCATE (ELEVND)                                                LAKDON........3800
-      DEALLOCATE (VFUL, VMAX)                                            LAKDON........3900
-      DEALLOCATE (NSVMAX, SVARRY)                                        LAKDON........4000
-      DEALLOCATE(FGWGLO,FGWLLO)                                          LAKDON........4100
-      DEALLOCATE(FEXGLO,FEXLLO)                                          LAKDON........4200
-      DEALLOCATE(FROGLO)                                                 LAKDON........4300
-      DEALLOCATE(QLO,QULO)                                               LAKDON........4400
-      DEALLOCATE(GGWGLO,GGWLLO)                                          LAKDON........4500
-      DEALLOCATE(GEXGLO,GEXLLO)                                          LAKDON........4600
-      DEALLOCATE(GROGLO)                                                 LAKDON........4700
-      DEALLOCATE(FGWG,FGWL)                                              LAKDON........4800
-      DEALLOCATE(FEXG,FEXL)                                              LAKDON........4900
-      DEALLOCATE(FROG)                                                   LAKDON........5000
-      DEALLOCATE(FLKG,FLKL,FLLL)                                         LAKDON........5100
-      DEALLOCATE(Q,QU)                                                   LAKDON........5200
-      DEALLOCATE(FSPILL,GSPILL)                                          LAKDON........5300
-      DEALLOCATE(GGWG,GGWL)                                              LAKDON........5400
-      DEALLOCATE(GEXG,GEXL)                                              LAKDON........5500
-      DEALLOCATE(GROG)                                                   LAKDON........5600
-      DEALLOCATE(GLKG,GLKL,GLLL)                                         LAKDON........5700
-      DEALLOCATE (LSPL)                                                  LAKDON........5800
-      DEALLOCATE (UWMS,UWMSO)                                            LAKDON........5900
-      DEALLOCATE (STGBO,UWO)                                             LAKDON........6000
-      DEALLOCATE (ISTATO,VOLWO)                                          LAKDON........6100
-      DEALLOCATE (NBR)                                                   LAKDON........6200
-      DEALLOCATE (ISURFACE)                                              LAKDON........6300
-C                                                                        LAKDON........6400
-      RETURN                                                             LAKDON........6500
-      END                                                                LAKDON........6600
-C                                                                        LAKDON........6700
+C.....DEALLOCATE ARRAYS.                                                 LAKDON........1600
+      DEALLOCATE (PLK, ULK)                                              LAKDON........1700
+      DEALLOCATE (ULKITR)                                                LAKDON........1800
+      DEALLOCATE (KL)                                                    LAKDON........1900
+      DEALLOCATE (KLOW, KHIGH, KVMAX)                                    LAKDON........2000
+      DEALLOCATE (ISLIMITED,ISSPLIT)                                     LAKDON........2100
+      DEALLOCATE (FRRO, FDRO)                                            LAKDON........2200
+      DEALLOCATE (LAKNOD)                                                LAKDON........2300
+      DEALLOCATE (LLOW, LLOWN, ISTAT, VOLW, UW)                          LAKDON........2400
+      DEALLOCATE (VOLWM1, UWM1, UWMSM1, ISTATM1)                         LAKDON........2500
+      DEALLOCATE (VOVER, WMOVER, SMOVER, STGB)                           LAKDON........2600
+      DEALLOCATE (LPAR, LCHD, LSIB)                                      LAKDON........2700
+      DEALLOCATE (ELEVND)                                                LAKDON........2800
+      DEALLOCATE (VFUL, VMAX)                                            LAKDON........2900
+      DEALLOCATE (NSVMAX, SVARRY)                                        LAKDON........3000
+      DEALLOCATE(FGWGLO,FGWLLO)                                          LAKDON........3100
+      DEALLOCATE(FEXGLO,FEXLLO)                                          LAKDON........3200
+      DEALLOCATE(FROGLO)                                                 LAKDON........3300
+      DEALLOCATE(QLO,QULO)                                               LAKDON........3400
+      DEALLOCATE(GGWGLO,GGWLLO)                                          LAKDON........3500
+      DEALLOCATE(GEXGLO,GEXLLO)                                          LAKDON........3600
+      DEALLOCATE(GROGLO)                                                 LAKDON........3700
+      DEALLOCATE(FGWG,FGWL)                                              LAKDON........3800
+      DEALLOCATE(FEXG,FEXL)                                              LAKDON........3900
+      DEALLOCATE(FROG)                                                   LAKDON........4000
+      DEALLOCATE(FLKG,FLKL,FLLL)                                         LAKDON........4100
+      DEALLOCATE(Q,QU)                                                   LAKDON........4200
+      DEALLOCATE(FSPILL,GSPILL)                                          LAKDON........4300
+      DEALLOCATE(GGWG,GGWL)                                              LAKDON........4400
+      DEALLOCATE(GEXG,GEXL)                                              LAKDON........4500
+      DEALLOCATE(GROG)                                                   LAKDON........4600
+      DEALLOCATE(GLKG,GLKL,GLLL)                                         LAKDON........4700
+      DEALLOCATE (LSPL)                                                  LAKDON........4800
+      DEALLOCATE (UWMS,UWMSO)                                            LAKDON........4900
+      DEALLOCATE (STGBO,UWO)                                             LAKDON........5000
+      DEALLOCATE (ISTATO,VOLWO)                                          LAKDON........5100
+      DEALLOCATE (NBR)                                                   LAKDON........5200
+      DEALLOCATE (ISURFACE)                                              LAKDON........5300
+C                                                                        LAKDON........5400
+      RETURN                                                             LAKDON........5500
+      END                                                                LAKDON........5600
+C                                                                        LAKDON........5700
 C     SUBROUTINE        L  A  K  D  R  Y           SUTRA VERSION 4.0     LAKDRY.........100
 C                                                                        LAKDRY.........200
 C *** PURPOSE :                                                          LAKDRY.........300
